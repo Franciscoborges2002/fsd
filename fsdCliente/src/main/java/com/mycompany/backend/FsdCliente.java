@@ -3,15 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
  */
 
-package com.mycompany.fsd;
+package com.mycompany.backend;
+import java.io.*;
 
-/**
- *
- * @author Andre
- */
-public class Fsd {
+public class FsdCliente {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         System.out.println("Hello World!");
+        
+        ConectarServidor conexaoServidor = new ConectarServidor();
+        
+        conexaoServidor.conectar();
     }
 }
