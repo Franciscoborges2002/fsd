@@ -18,7 +18,7 @@ public class AtenderPedidos extends Thread{
         }
     }
 
-    public void run(){
+    public void run(){//Mudar, para quando aceitar uma ligação criar o cliente e adicioanr ao repositorio do servidor
         String pedido, resposta;
 
         System.out.println("Pedido recebido;");

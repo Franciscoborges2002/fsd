@@ -3,12 +3,18 @@ import java.io.*;
 
 
 public class Servidor {
-    static int DEFAULT_PORT=2000;
+    private static int DEFAULT_PORT=2000;
+    private RepositorioClientes repClientes;
 
-    public void teste() throws IOException{
+    public Servidor(){
+
+    }
+
+    public void iniciar() throws IOException{
         int port = DEFAULT_PORT;
 
-        ServerSocket servidor = new ServerSocket(port); 
+        ServerSocket servidor = new ServerSocket(port);//Criar servidor socket
+        repClientes = new RepositorioClientes();
         
         System.out.println("Servidor a' espera de ligacoes no porto " + port);
 
@@ -26,5 +32,13 @@ public class Servidor {
 			}
         }
         //servidor.close();
+    }
+
+    public RepositorioClientes getRepositorioClientes(){
+        return this.repClientes;
+    }
+
+    public void setRepositorioClientes(RepositorioClientes novoRepClientes){
+        this.repClientes = novoRepClientes;
     }
 }
