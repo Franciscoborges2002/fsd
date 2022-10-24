@@ -9,7 +9,7 @@ import java.io.*;
 public class FsdCliente {
 
     public static void main(String[] args) throws IOException{
-        System.out.println("Hello World!");
+        System.out.println("Cliente iniciado!");
         
         ConectarServidor conexaoServidor = new ConectarServidor();
         
