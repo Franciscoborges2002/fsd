@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class AtenderPedidos extends Thread{
     Socket ligacao;
@@ -13,7 +14,6 @@ public class AtenderPedidos extends Thread{
 
         try{
             this.bufferIn = new BufferedReader(new InputStreamReader(ligacao.getInputStream()));
-
             this.printOut = new PrintWriter(ligacao.getOutputStream(), true);    
         }catch(IOException err){
             System.out.println("Erro na execucao do servidor: " + err);
@@ -22,14 +22,54 @@ public class AtenderPedidos extends Thread{
     }
 
     public void run(){//Mudar, para quando aceitar uma ligação criar o cliente e adicioanr ao repositorio do servidor
-        String pedido, resposta;
-
+        String pedido, mensagem;
+        int indexVirgula;
         try{
-            pedido = bufferIn.readLine();
-            System.out.println(pedido);
             
-            funcMensagem(tipoMensagem(pedido), pedido);
-            
+            while(true){
+                pedido = bufferIn.readLine();
+                System.out.println(pedido);
+    
+                switch(tipoMensagem(pedido)){
+                    case "SESSION_UPDATE_REQUEST":
+                        String nick;
+                        int sessionTimeoutSeg;
+
+                        //Remover tipo mensagem
+                        indexVirgula = pedido.indexOf(",") +1;
+                        pedido = pedido.substring(indexVirgula);
+
+                        //fazer o que é preciso
+                        nick = pedido.substring(0, pedido.indexOf(","));//separa o nick
+                        //System.out.println("nick " +nick);
+                        pedido = pedido.substring(pedido.indexOf(",") + 1);
+                        sessionTimeoutSeg = Integer.parseInt(pedido.substring(0));
+                        //System.out.println("timeout " +sessionTimeoutSeg);
+
+                        AgenteUtilizador novoCliente = new AgenteUtilizador(nick, sessionTimeoutSeg);//Criar AgenteUtilziador
+                        sessaoAtual.getRepAgenteUtilizador().adicionarCliente(novoCliente);//Adicionar repositorio
+                    break;
+                    case "AGENT_POST":
+                        //Remover tipo mensagem
+                        indexVirgula = pedido.indexOf(",") +1;//index da virgula
+                        mensagem = pedido.substring(indexVirgula);
+
+                        //adicionar às mensagens
+                        sessaoAtual.getRepositorioPosts().adicionarMensagem(mensagem);
+                        sessaoAtual.getRepositorioPosts().listar();
+                    break;
+                }
+
+                //enviar para todos
+                System.out.println("eNVIAR PARA TODOS OS UTILIZADORES");
+                //sessaoAtual.enviarParaTodos(printOut);
+                ArrayList<AtenderPedidos> threads = sessaoAtual.getAtenderPedidos();
+                for(AtenderPedidos thread: threads){
+                    System.out.println("A enviar para thread " + thread);
+                    System.out.println(sessaoAtual.getInfoSession2Send());
+                    printOut.println(sessaoAtual.getInfoSession2Send());
+                }
+            }
         }catch(IOException e){
             System.out.println("Erro na execucao do servidor: "+e);
             System.exit(1);
@@ -42,31 +82,6 @@ public class AtenderPedidos extends Thread{
         String tipoMensagem = mensagem.substring(0, indexVirgula);
 
         return tipoMensagem;
-    }
-
-    //Função para receber ver quais os dados recebido
-    public void funcMensagem(String tipoMensagem, String mensagem){
-        /* String[] dadosMensagemEstruturados;
-        dadosMensagemEstruturados. */
-        switch(tipoMensagem){
-            case "SESSION_UPDATE_REQUEST":
-                String nick;
-                int indexVirgula = mensagem.indexOf(",") +1;//index da virgula
-                nick = mensagem.substring(indexVirgula);//separa o nick
-
-                AgenteUtilizador novoCliente = new AgenteUtilizador(nick);//Criar AgenteUtilziador
-                sessaoAtual.getRepAgenteUtilizador().adicionarCliente(novoCliente);//Adicionar repositorio
-                
-                //enviar a mensagem
-                printOut.println(getInfoSession(sessaoAtual.getRepAgenteUtilizador(), sessaoAtual.getRepositorioPosts()));
-            break;
-        }
-    }
-
-    public String getInfoSession(RepositorioAgenteUtilizador repAgenteUtilizador, RepositorioPosts repPosts){
-        /* System.out.println(repAgenteUtilizador.getNickAgentesUtilizador().toString());
-        System.out.println(repPosts.getRepositorioMensagens().toString()); */
-        return "SESSION_UPDATE," + repAgenteUtilizador.getNickAgentesUtilizador().toString()+ "," +repPosts.getRepositorioMensagens().toString();
     }
     
 }

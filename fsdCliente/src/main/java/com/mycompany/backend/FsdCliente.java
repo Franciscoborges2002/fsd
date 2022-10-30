@@ -12,6 +12,14 @@ public class FsdCliente {
         System.out.println("Cliente iniciado!");
         
         ConectarServidor conexaoServidor = new ConectarServidor();
+        PaginaPrincipal p = new PaginaPrincipal();
+        
+        //p.setVisible(true);
+        
+        //p.show(true);
+        //p.setEnabled(true);
+        //p.setVisible(true);
+        //System.out.println(p.isVisible());
         
         conexaoServidor.conectar();
     }

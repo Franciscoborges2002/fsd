@@ -1,32 +1,35 @@
 import java.util.ArrayList;
 
 public class RepositorioPosts {
-    private ArrayList<Mensagem> mensagens;
-
+    //private ArrayList<Mensagem> mensagens;
+    private ArrayList<String> posts;
     public RepositorioPosts(){
-        mensagens = new ArrayList<Mensagem>(10);
+        posts = new ArrayList<String>(10);
     }
 
-    public ArrayList<Mensagem> getRepositorioMensagens(){
-        return this.mensagens;
+    public ArrayList<String> getRepositorioPosts(){
+        return this.posts;
     }
 
-    public void setRepositorioMensagens(ArrayList<Mensagem> repMensagens){
-        this.mensagens = repMensagens;
+    public void setRepositorioposts(ArrayList<String> repPosts){
+        this.posts = repPosts;
     }
 
-    public void adicionarMensagem(String mensagem, AgenteUtilizador utilizador){
-        Mensagem mensagemAdicionar = new Mensagem(mensagem, utilizador);
-        
-        //verificar quantas mensagens tem na arraylsit
-        int mensagensGuardadas = mensagens.size();
-
-        if(mensagensGuardadas >= 10){
+    public void adicionarMensagem(String mensagem){
+       // Mensagem mensagemAdicionar = new Mensagem(mensagem, utilizador);
+        System.out.println("Memsagem a adicionar: " + mensagem);
+        if(posts.size() >= 10){
             //remover primeira mensagem
-            mensagens.remove(0);
+            posts.remove(0);
         }
         
         //adicionar nova mensagem na ultima posiçao
-        mensagens.add(mensagemAdicionar);
+        posts.add(mensagem);
+    }
+
+    public void listar(){
+        for(String post: posts){
+            System.out.println(post);
+        }
     }
 }

@@ -3,9 +3,8 @@ import java.io.*;
 
 
 public class Servidor {
-    private static int DEFAULT_PORT=2000;
+    private static int DEFAULT_PORT=2001;
     private SessaoAtual sessaoAtual;
-    
 
     public Servidor(){
         this.sessaoAtual = new SessaoAtual();
@@ -24,6 +23,7 @@ public class Servidor {
 
                 AtenderPedidos pedidoConexao = new AtenderPedidos(ligacao, sessaoAtual);
 
+                sessaoAtual.getAtenderPedidos().add(pedidoConexao);
                 pedidoConexao.start();
             } catch (IOException e) {
 				System.out.println("Erro na execucao do servidor: "+e);

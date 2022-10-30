@@ -4,18 +4,40 @@
  */
 package com.mycompany.backend;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /*
  * Classe para ter todas as informações da sessão atual,
  * por parte do cliente
  */
 
-public class SessaoAtual {
+public class SessaoConectada {
     private RepositorioAgenteUtilizador repAgenteUtilizador;
     private RepositorioPosts repPosts;
 
-    public SessaoAtual(){
+    public SessaoConectada(){
         repAgenteUtilizador = new RepositorioAgenteUtilizador();
         repPosts = new RepositorioPosts();
+    }
+    
+    public void mudarUtilizadores(String utilizadores){
+        //Passar a string par aarraylist
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(utilizadores.split(", ")));
+        //mudar arraylist
+        repAgenteUtilizador.setRepositorioAgenteUtilizador(arrayList);
+    }
+    
+    //PARA TESTAR DEPOIS
+    public void adicionarPosts(String mensagens){
+        //Passar para arraylist
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(mensagens.split(", ")));
+        
+        System.out.println("Adicioanr posts");
+        System.out.println(mensagens);
+        System.out.println("------------");
+        //mudar arraylist
+        repPosts.adicionarPost(mensagens);
     }
 
     public RepositorioAgenteUtilizador getRepAgenteUtilizador(){

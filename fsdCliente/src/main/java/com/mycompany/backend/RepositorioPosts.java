@@ -7,32 +7,38 @@ package com.mycompany.backend;
 import java.util.ArrayList;
 
 public class RepositorioPosts {
-    private ArrayList<Mensagem> mensagens;
+    private ArrayList<String> posts;
 
     public RepositorioPosts(){
-        mensagens = new ArrayList<Mensagem>(10);
+        posts = new ArrayList<String>(10);
     }
 
-    public ArrayList<Mensagem> getRepositorioMensagens(){
-        return this.mensagens;
+    public ArrayList<String> getRepositorioPosts(){
+        return this.posts;
     }
 
-    public void setRepositorioMensagens(ArrayList<Mensagem> repMensagens){
-        this.mensagens = repMensagens;
+    public void setRepositorioMensagens(ArrayList<String> repPosts){
+        this.posts = repPosts;
     }
 
-    public void adicionarMensagem(String mensagem, AgenteUtilizador utilizador){
-        Mensagem mensagemAdicionar = new Mensagem(mensagem, utilizador);
+    public void adicionarPost(String mensagem){
         
-        //verificar quantas mensagens tem na arraylsit
-        int mensagensGuardadas = mensagens.size();
-
-        if(mensagensGuardadas >= 10){
+        if(mensagem == ""){//Se a mensagem não contiver nome nem mensagem, não adicionar
+            return;
+        }
+        if(posts.size() >= 10){
             //remover primeira mensagem
-            mensagens.remove(0);
+            posts.remove(0);
         }
         
         //adicionar nova mensagem na ultima posiçao
-        mensagens.add(mensagemAdicionar);
+        posts.add(mensagem);
+    }
+    
+    public void listar(){
+        System.out.println("Lista Posts:");
+        for(String post: posts){
+            System.out.println(post);
+        }
     }
 }

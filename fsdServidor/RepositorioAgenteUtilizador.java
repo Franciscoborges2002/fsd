@@ -12,6 +12,14 @@ public class RepositorioAgenteUtilizador {
     }
 
     public void adicionarCliente(AgenteUtilizador cliente){
+        for (Map.Entry<Integer, AgenteUtilizador> entry : agenteUtilizador.entrySet()) {
+            AgenteUtilizador agenteUtilizador = entry.getValue();
+        
+            if(agenteUtilizador.getNickAgenteUtilizador().equals(cliente.getNickAgenteUtilizador())){
+                throw new IllegalArgumentException("O cliente já está na lista.");
+            }
+        }
+        
         if(!agenteUtilizador.containsValue(cliente)){
             agenteUtilizador.put(id, cliente);
             id++;
@@ -39,12 +47,7 @@ public class RepositorioAgenteUtilizador {
 
     public void listarTudo(){
         //Passar por todos os valores doa hash table
-        for (Map.Entry<Integer, AgenteUtilizador> entry : agenteUtilizador.entrySet()) {
-            Integer key = entry.getKey();
-            AgenteUtilizador agenteUtilizador = entry.getValue();
         
-            System.out.println("Key: " + key + " Value: " + agenteUtilizador.getNickAgenteUtilizador());
-        }
     }
 
     public ArrayList<String> getNickAgentesUtilizador(){
