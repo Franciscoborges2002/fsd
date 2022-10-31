@@ -4,6 +4,7 @@
  */
 
 package com.mycompany.backend;
+
 import java.io.*;
 
 public class FsdCliente {
@@ -11,16 +12,10 @@ public class FsdCliente {
     public static void main(String[] args) throws IOException{
         System.out.println("Cliente iniciado!");
         
-        ConectarServidor conexaoServidor = new ConectarServidor();
-        PaginaPrincipal p = new PaginaPrincipal();
+        //ConectarServidor conexaoServidor = new ConectarServidor();
+PaginaInicial paginaInicial = new PaginaInicial();
+paginaInicial.setVisible(true);
         
-        //p.setVisible(true);
-        
-        //p.show(true);
-        //p.setEnabled(true);
-        //p.setVisible(true);
-        //System.out.println(p.isVisible());
-        
-        conexaoServidor.conectar();
+        //conexaoServidor.conectar();
     }
 }

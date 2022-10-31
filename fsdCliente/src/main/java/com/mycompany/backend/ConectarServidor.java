@@ -20,7 +20,7 @@ public class ConectarServidor extends Thread{
     Socket ligacao;
     String nick;
     
-    Thread threadReceberInfo = new Thread(){
+    Thread threadEnviarMensagem = new Thread(){
         public void run(){
           String mensagemAEnviar;
           System.out.println("threadReceberInfo Running");
@@ -45,7 +45,8 @@ public class ConectarServidor extends Thread{
           Scanner ler = new Scanner(System.in);
             try {
                 while(true){
-                    this.sleep(10);
+                    //CODIGO PARA MANDAR REQUEST
+                    this.sleep(5000);
                 }
                 
             } catch (InterruptedException ex) {
@@ -64,7 +65,7 @@ public class ConectarServidor extends Thread{
         }
     };
     
-    Thread threadEnviarMensagens = new Thread(){
+    Thread threadReceberInfo = new Thread(){
         public void run(){
             String infoSessao;
             String resposta;
@@ -126,7 +127,7 @@ public class ConectarServidor extends Thread{
             threadReceberInfo.start();
             
             //Thread para enviar mensagens
-            threadEnviarMensagens.start();
+            threadEnviarMensagem.start();
             
             /*while(true){
                 System.out.println("Inicio while");

@@ -1,19 +1,21 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.backend;
 
-public class PaginaPrincipal extends javax.swing.JPanel {
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
+public class PaginaInicial extends javax.swing.JFrame {
 
     /**
-     * Creates new form PaginaPrincipal
+     * Creates new form NewJFrame
      */
-    public PaginaPrincipal() {
+    public PaginaInicial() {
         initComponents();
-        //this.setVisible(true);
     }
-   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,11 +29,13 @@ public class PaginaPrincipal extends javax.swing.JPanel {
         espacoTextoNome = new javax.swing.JTextField();
         espacoTextoIp = new javax.swing.JTextField();
         espacoTextoPorta = new javax.swing.JTextField();
-        espacoTextoSegundosTimeout = new javax.swing.JTextField();
+        espacoTextoTaxaAtualizacao = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         botaoConectar.setText("Conectar");
         botaoConectar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -47,16 +51,28 @@ public class PaginaPrincipal extends javax.swing.JPanel {
             }
         });
 
+        espacoTextoIp.setForeground(java.awt.Color.gray);
         espacoTextoIp.setText("127.0.0.1");
         espacoTextoIp.setToolTipText("Inserir o ip para conectar");
+        espacoTextoIp.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                espacoTextoIpFocusLost(evt);
+            }
+        });
         espacoTextoIp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 espacoTextoIpMouseClicked(evt);
             }
         });
 
+        espacoTextoPorta.setForeground(java.awt.Color.gray);
         espacoTextoPorta.setText("2001");
         espacoTextoPorta.setToolTipText("Inserir a porta para conectar");
+        espacoTextoPorta.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                espacoTextoPortaFocusLost(evt);
+            }
+        });
         espacoTextoPorta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 espacoTextoPortaMouseClicked(evt);
@@ -68,9 +84,21 @@ public class PaginaPrincipal extends javax.swing.JPanel {
             }
         });
 
-        espacoTextoSegundosTimeout.setToolTipText("Inserir os segundos timeout");
+        espacoTextoTaxaAtualizacao.setForeground(java.awt.Color.gray);
+        espacoTextoTaxaAtualizacao.setText("60");
+        espacoTextoTaxaAtualizacao.setToolTipText("Inserir taxa de atualizacao");
+        espacoTextoTaxaAtualizacao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                espacoTextoTaxaAtualizacaoFocusLost(evt);
+            }
+        });
+        espacoTextoTaxaAtualizacao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                espacoTextoTaxaAtualizacaoMouseClicked(evt);
+            }
+        });
 
-        jLabel1.setText("Segundos Timeout:");
+        jLabel1.setText("Taxa atualização:");
 
         jLabel2.setText("Nickname para usar:");
 
@@ -78,8 +106,8 @@ public class PaginaPrincipal extends javax.swing.JPanel {
 
         jLabel4.setText("Ip servidor para conectar:");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -97,7 +125,7 @@ public class PaginaPrincipal extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(espacoTextoSegundosTimeout)))
+                            .addComponent(espacoTextoTaxaAtualizacao)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -127,39 +155,118 @@ public class PaginaPrincipal extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoConectar)
                     .addComponent(espacoTextoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(espacoTextoSegundosTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(espacoTextoTaxaAtualizacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void espacoTextoIpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_espacoTextoIpMouseClicked
-        espacoTextoIp.setText("oi");
+    private void botaoConectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoConectarMouseClicked
+        System.out.println("Tentar conectar");
+        if("".equals(espacoTextoNome.getText())){
+            JOptionPane.showMessageDialog(null, "Tens de inserir um nome para te poderes entrar no servidor!",
+      "ERROR!", JOptionPane.ERROR_MESSAGE);
+        }else{
+            System.out.println("oi");
+        }
+    }//GEN-LAST:event_botaoConectarMouseClicked
+
+    private void espacoTextoNomeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_espacoTextoNomeFocusGained
         
+    }//GEN-LAST:event_espacoTextoNomeFocusGained
+
+    private void espacoTextoIpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_espacoTextoIpMouseClicked
+        if("127.0.0.1".equals(espacoTextoIp.getText())){
+            espacoTextoIp.setForeground(Color.BLACK);
+            espacoTextoIp.setText("");
+        }
+        
+
     }//GEN-LAST:event_espacoTextoIpMouseClicked
 
     private void espacoTextoPortaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_espacoTextoPortaMouseClicked
-        espacoTextoPorta.setText("oi");
+        if("2001".equals(espacoTextoPorta.getText())){
+            espacoTextoPorta.setForeground(Color.BLACK);
+            espacoTextoPorta.setText("");
+        }
     }//GEN-LAST:event_espacoTextoPortaMouseClicked
 
     private void espacoTextoPortaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_espacoTextoPortaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_espacoTextoPortaActionPerformed
 
-    private void espacoTextoNomeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_espacoTextoNomeFocusGained
-        espacoTextoNome.setText("asdasdasd");
-    }//GEN-LAST:event_espacoTextoNomeFocusGained
+    private void espacoTextoIpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_espacoTextoIpFocusLost
+        if("".equals(espacoTextoIp.getText())){
+            espacoTextoIp.setForeground(Color.GRAY);
+            espacoTextoIp.setText("127.0.0.1");
+        }
+        
+    }//GEN-LAST:event_espacoTextoIpFocusLost
 
-    private void botaoConectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoConectarMouseClicked
-        System.out.println("oioi");
-    }//GEN-LAST:event_botaoConectarMouseClicked
+    private void espacoTextoPortaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_espacoTextoPortaFocusLost
+        if("".equals(espacoTextoPorta.getText())){
+            espacoTextoPorta.setForeground(Color.GRAY);
+            espacoTextoPorta.setText("2001");
+        }
+        
+    }//GEN-LAST:event_espacoTextoPortaFocusLost
 
+    private void espacoTextoTaxaAtualizacaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_espacoTextoTaxaAtualizacaoFocusLost
+        if("".equals(espacoTextoTaxaAtualizacao.getText())){
+            espacoTextoTaxaAtualizacao.setForeground(Color.GRAY);
+            espacoTextoTaxaAtualizacao.setText("60");
+        }
+    }//GEN-LAST:event_espacoTextoTaxaAtualizacaoFocusLost
+
+    private void espacoTextoTaxaAtualizacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_espacoTextoTaxaAtualizacaoMouseClicked
+        if("60".equals(espacoTextoTaxaAtualizacao.getText())){
+            espacoTextoTaxaAtualizacao.setForeground(Color.BLACK);
+            espacoTextoTaxaAtualizacao.setText("");
+        }
+    }//GEN-LAST:event_espacoTextoTaxaAtualizacaoMouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    /*public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PaginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PaginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PaginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(PaginaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form 
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new PaginaInicial().setVisible(true);
+            }
+        });
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoConectar;
     private javax.swing.JTextField espacoTextoIp;
     private javax.swing.JTextField espacoTextoNome;
     private javax.swing.JTextField espacoTextoPorta;
-    private javax.swing.JTextField espacoTextoSegundosTimeout;
+    private javax.swing.JTextField espacoTextoTaxaAtualizacao;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

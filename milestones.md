@@ -24,6 +24,7 @@
 |Adicionar ao SESSION_TIMEOUT no SESSION_UPDATE_REQUEST        | <p align="center">❌</p>  |---               |
 |Adicionar threads no servidor para verificar se temos de dar timeout ao cliente        | <p align="center">❌</p>  |---               |
 |Adicionar threads no cliente para receber atualizações servidor        | <p align="center">✔️</p>  |30/10/2022               |
+|Página principal com GUI         | <p align="center">✔️</p>  |31/10/2022               |
 |fase 1: ponto 8         | <p align="center">❌</p>  |---               |
 |fase 1: ponto 9         | <p align="center">❌</p>  |---               |
 |Fazer relatório fase 1         | <p align="center">❌</p>  |---               |
