@@ -5,165 +5,177 @@
 package com.mycompany.backend;
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConectarServidor extends Thread{
-    static final int DEFAULT_PORT=2001;
-    static final String DEFAULT_HOST="127.0.0.1"; 
-    static final int SESSION_TIMEOUT = 120;
-    BufferedReader bufferIn;
-    PrintWriter printOut;
-    SessaoConectada sessaoConectada;
-    InetAddress servidorConectar;
-    Socket ligacao;
-    String nick;
+    private String ipServidor;
+    private int portaServidor;
+    private int taxaAtualizacao;
+    private BufferedReader bufferIn;
+    private PrintWriter printOut;
+    private SessaoConectada sessaoConectada;
+    private InetAddress servidorConectar;
+    private Socket ligacao;
+    private String nomeUtilizador;
     
-    Thread threadEnviarMensagem = new Thread(){
-        public void run(){
-          String mensagemAEnviar;
-          System.out.println("threadReceberInfo Running");
-          Scanner ler = new Scanner(System.in);
-          
-          while(true){
-            //Pedir nova post para enviar
-            System.out.printf("O que quer escrever no chat:");
-            mensagemAEnviar = ler.nextLine();
+    public void run(){
+        
+    }
+    
+    public void setNomeUtilizador(String nomeUtilizador){
+        this.nomeUtilizador = nomeUtilizador;
+    }
+    
+    public void setIpServidor(String ipServidor){
+        this.ipServidor = ipServidor;
+    }
+    
+    public void setPortaServidor(int portaServidor){
+        this.portaServidor = portaServidor;
+    }
+    
+    public void setTaxaAtualizacao(int taxaAtualizacao){
+        this.taxaAtualizacao = taxaAtualizacao;
+    }
+
+    //Metodo para conectar e definir todas as vars da classe
+    public void conectar() throws IOException {
+        try {
+            //Definir todas as variaveis da classe
+            this.sessaoConectada = new SessaoConectada();
+
+            this.servidorConectar = InetAddress.getByName(ipServidor);
+
+            this.ligacao = new Socket(servidorConectar, portaServidor);
+
+            this.bufferIn = new BufferedReader(new InputStreamReader(ligacao.getInputStream()));
+
+            this.printOut = new PrintWriter(ligacao.getOutputStream(), true);
+
+            //Enviar a primeira request e receber a resposta
+            printOut.println("SESSION_UPDATE_REQUEST," + nomeUtilizador);
+
+            //Ler resposta do servidor
+            String resposta = bufferIn.readLine();
             
-            //Enviar o AGENT_POST
-            printOut.println("AGENT_POST," + nick + ":" + mensagemAEnviar);
-          }
-          
+            //Meter informações na sessao atual
+            setInfoSessao(resposta.substring(resposta.indexOf(",") +1));
+
+            //iniciar a thread receber info
+            threadReceberInfo.start();
+
+            //iniciar a thread para enviar SESSION_UPDATE_REQUEST
+            threadEnviarSessionRequest.start();
+        } catch (IOException ex) {
+            Logger.getLogger(ConectarServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    };
+    }
     
-    Thread threadEnviarSessionRequest = new Thread(){
-        public void run(){
-          String mensagemAEnviar;
-          System.out.println("threadReceberInfo Running");
-          Scanner ler = new Scanner(System.in);
-            try {
-                while(true){
-                    //CODIGO PARA MANDAR REQUEST
-                    this.sleep(5000);
-                }
-                
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ConectarServidor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-          
-          while(true){
-            //Pedir nova post para enviar
-            System.out.printf("O que quer escrever no chat:");
-            mensagemAEnviar = ler.nextLine();
-            
-            //Enviar o AGENT_POST
-            printOut.println("AGENT_POST," + nick + ":" + mensagemAEnviar);
-          }
-          
-        }
-    };
+    //Metodo para enviar mensagem
+    public void enviarMensagem(String mensagemEnviar){
+        System.out.println("EnviarMensagem Running");   
+        System.out.println("                                      <- enviar mensagem");
+        
+        //Enviar o AGENT_POST
+        printOut.println("AGENT_POST," + mensagemEnviar);
+
+    }
     
+    public void sessionRequestForced(){
+        System.out.println("Atualizar Forcer");   
+        System.out.println("                                                 <- pedria atualizacao forçada");
+    
+        printOut.println("SESSION_UPDATE_REQUEST");
+    }
+    
+    //Thread para receber info
     Thread threadReceberInfo = new Thread(){
         public void run(){
-            String infoSessao;
             String resposta;
-            
+            System.out.println("threadReceberInfo Running");
+                
             try {
                 while(true){
-                    System.out.println("threadEnviarMensagens Running");
+                    System.out.println("                           <- receber info");
                     resposta = bufferIn.readLine();
                     System.out.println(resposta);
-                    sessaoConectada.getRepositorioPosts().listar();
-                    sessaoConectada.getRepAgenteUtilizador().listarRep();
-
-                    //Receber informação do chat, se houver
-                    int indexVirgula = resposta.indexOf(",") +1;
-                    infoSessao = resposta.substring(indexVirgula);
-
-                    setInfoSessao(resposta);
+                    sessaoConectada.getRepositorioPosts().listar();//PARA REMOVER
+                    
+                    if("SESSION_TIMEOUT".equals(resposta)){
+                        System.out.println("Fechar ligacao");
+                        bufferIn.close();
+                        printOut.close();
+                        ligacao.close();
+                        
+                    }else{
+                        setInfoSessao(resposta.substring(resposta.indexOf(",") + 1));
+                    }
                 }
             } catch (IOException e) {
                 Logger.getLogger(ConectarServidor.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     };
+    
+    //Thread para enviar SESSION_UPDATE_REQUEST
+    Thread threadEnviarSessionRequest = new Thread(){
+        public void run(){
+          System.out.println("threadReceberInfo Running");
 
-    public void conectar() throws IOException {
-        String servidor = DEFAULT_HOST;
-        this.sessaoConectada = new SessaoConectada();
-        int porta = DEFAULT_PORT;
-                
-        this.servidorConectar = InetAddress.getByName(servidor);
-		
-        this.ligacao = new Socket(servidorConectar, porta);
-        try {
-            this.bufferIn = new BufferedReader(new InputStreamReader(ligacao.getInputStream()));
+            try {
+                while(true){
+                    System.out.println("               <- pedir updates");
+                    //CODIGO PARA MANDAR REQUEST
+                    printOut.println("SESSION_UPDATE_REQUEST");
 
-            this.printOut = new PrintWriter(ligacao.getOutputStream(), true);
-            nick = "joao25";
-            int segundosTimeout = SESSION_TIMEOUT;
-            String request = "SESSION_UPDATE_REQUEST," + nick + "," + segundosTimeout;
-            
-
-            printOut.println(request);
-
-            String resposta = bufferIn.readLine();
-            
-            System.out.println(resposta);
-            
-            /*switch(tipoMensagem(resposta)){
-                case "SESSION_UPDATE":
-                    String infoSessao;
-                    int indexVirgula = resposta.indexOf(",") +1;
-                    infoSessao = resposta.substring(indexVirgula);
-
-                    setInfoSessao(resposta);
-                break;
-            }*/
-            
-            //Thread para receber sempre as informações
-            threadReceberInfo.start();
-            
-            //Thread para enviar mensagens
-            threadEnviarMensagem.start();
-            
-            /*while(true){
-                System.out.println("Inicio while");
-                
-               
-                System.out.println("Fim while");
-            }*/
-
-            //ligacao.close();
-            //System.out.println("Terminou a ligacao!");
-        } catch (IOException e) {
-            System.out.println("Erro ao comunicar com o servidor: "+e);
-            System.exit(1);
+                    this.sleep(taxaAtualizacao * 1000);
+                }
+            } catch (InterruptedException /*| IOException*/ e) {
+                Logger.getLogger(ConectarServidor.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
+    };
+    
+    //Função para ter o tipo de mensagem
+    public String tipoMensagem(String mensagem){//Retornar o tipo de mensagem
+        return mensagem.substring(0, mensagem.indexOf(","));
     }
     
-    public String tipoMensagem(String mensagem){
-        int indexVirgula = mensagem.indexOf(",");
-
-        String tipoMensagem = mensagem.substring(0, indexVirgula);
-
-        return tipoMensagem;
-    }
-    
-    public void setInfoSessao(String mensagem){
-        System.out.println("Adicionar: " + mensagem);//
+    //Função para registar a informação
+    public void setInfoSessao(String mensagem){//Registar tudo o recebido da nova request
+        System.out.println("Adicionar: " + mensagem);//PARA REMOVER
         this.sessaoConectada.mudarUtilizadores(mensagem.substring(mensagem.indexOf("[") + 1, mensagem.indexOf("]")));
+        
         mensagem = mensagem.substring(mensagem.indexOf("]")  + 3);//Tirar os utilizadores já adicionados acima
         this.sessaoConectada.adicionarPosts(mensagem.substring(0, mensagem.indexOf("]")));
     
-        this.sessaoConectada.getRepAgenteUtilizador().listarRep();
-        this.sessaoConectada.getRepositorioPosts().listar();
+        this.sessaoConectada.getRepositorioPosts().listar();//PARA REMOVER
+    }
+    
+    //Função para retornar arraylist com o repositorio de utilizadores
+    public ArrayList<String> getAgentesUtilizadores(){
+        return sessaoConectada.getRepAgenteUtilizador().getRepositorioAgenteUtilizador();
+    }
+    
+    //Função para retornar arraylist com o repositorio de posts
+    public ArrayList<String> getPosts(){
+        return sessaoConectada.getRepositorioPosts().getRepositorioPosts();
     }
 
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    //Verificar se esta conectado
+    public boolean estaConectado(){
+        return ligacao.isConnected();
+    }
+    
+    //Metodo para se desconectar do servidor
+    public void desconectarServidor() throws Exception{
+        try {
+            ligacao.close();
+        } catch (IOException e) {
+            throw new Exception(e);
+        }
     }
 }

@@ -3,14 +3,17 @@ import java.net.*;
 import java.util.ArrayList;
 
 public class AtenderPedidos extends Thread{
-    Socket ligacao;
+    private Socket ligacao;
     private BufferedReader bufferIn;
     private PrintWriter printOut;
-    SessaoAtual sessaoAtual;
+    private SessaoAtual sessaoAtual;
+    private String nomeUtilizador;
+    private int ultimaInteracao, sessionTimeout;
 
     public AtenderPedidos(Socket ligacao, SessaoAtual sessaoAtual) throws IOException{
         this.ligacao = ligacao;
         this.sessaoAtual = sessaoAtual;
+        this.ultimaInteracao = 0;
 
         try{
             this.bufferIn = new BufferedReader(new InputStreamReader(ligacao.getInputStream()));
@@ -23,53 +26,56 @@ public class AtenderPedidos extends Thread{
 
     public void run(){//Mudar, para quando aceitar uma ligação criar o cliente e adicioanr ao repositorio do servidor
         String pedido, mensagem;
-        int indexVirgula;
-        try{
-            
+        verificarSessionTimeout(this);
+
+        try{ 
             while(true){
                 pedido = bufferIn.readLine();
                 System.out.println(pedido);
+
+                if(pedido == null){
+                    System.out.println("Pedido null, fechar a ligacao fechada");
+                    sessaoAtual.removerUtilizador(this, this.nomeUtilizador);
+                    enviarParaTodos(sessaoAtual.getAtenderPedidos());
+                    break;
+                }
     
                 switch(tipoMensagem(pedido)){
                     case "SESSION_UPDATE_REQUEST":
-                        String nick;
-                        int sessionTimeoutSeg;
+                        if(!(pedido.length() == 22)){//Se tiver diferente de 22 caracteres adicionar nome
+                            //Remover tipo mensagem
+                            pedido = pedido.substring(pedido.indexOf(",") +1);
 
-                        //Remover tipo mensagem
-                        indexVirgula = pedido.indexOf(",") +1;
-                        pedido = pedido.substring(indexVirgula);
+                            //fazer o que é preciso
+                            nomeUtilizador = pedido.substring(0);//separa o nick
 
-                        //fazer o que é preciso
-                        nick = pedido.substring(0, pedido.indexOf(","));//separa o nick
-                        //System.out.println("nick " +nick);
-                        pedido = pedido.substring(pedido.indexOf(",") + 1);
-                        sessionTimeoutSeg = Integer.parseInt(pedido.substring(0));
-                        //System.out.println("timeout " +sessionTimeoutSeg);
-
-                        AgenteUtilizador novoCliente = new AgenteUtilizador(nick, sessionTimeoutSeg);//Criar AgenteUtilziador
-                        sessaoAtual.getRepAgenteUtilizador().adicionarCliente(novoCliente);//Adicionar repositorio
-                    break;
+                            AgenteUtilizador novoCliente = new AgenteUtilizador(nomeUtilizador);//Criar AgenteUtilziador
+                            sessaoAtual.getRepAgenteUtilizador().adicionarCliente(novoCliente);//Adicionar repositorio
+                            
+                            //Enviar para todos os utilizadores
+                            enviarParaTodos(sessaoAtual.getAtenderPedidos());
+                        }else{
+                            //Enviar só para o cliente que pediu o request
+                            printOut.println(sessaoAtual.getInfoSession2Send());
+                        }
+                    break; 
                     case "AGENT_POST":
                         //Remover tipo mensagem
-                        indexVirgula = pedido.indexOf(",") +1;//index da virgula
-                        mensagem = pedido.substring(indexVirgula);
+                        mensagem = pedido.substring(pedido.indexOf(",") +1);
 
                         //adicionar às mensagens
-                        sessaoAtual.getRepositorioPosts().adicionarMensagem(mensagem);
-                        sessaoAtual.getRepositorioPosts().listar();
+                        sessaoAtual.getRepositorioPosts().adicionarMensagem(nomeUtilizador, mensagem, sessaoAtual.getRepAgenteUtilizador());
+
+                        //Enviar para todos os utilziadores
+                        enviarParaTodos(sessaoAtual.getAtenderPedidos());
+                    break;
+                    default:
+                        System.out.println("Mensagem sem tipo");
                     break;
                 }
-
-                //enviar para todos
-                System.out.println("eNVIAR PARA TODOS OS UTILIZADORES");
-                //sessaoAtual.enviarParaTodos(printOut);
-                ArrayList<AtenderPedidos> threads = sessaoAtual.getAtenderPedidos();
-                for(AtenderPedidos thread: threads){
-                    System.out.println("A enviar para thread " + thread);
-                    System.out.println(sessaoAtual.getInfoSession2Send());
-                    printOut.println(sessaoAtual.getInfoSession2Send());
-                }
             }
+
+            ligacao.close();
         }catch(IOException e){
             System.out.println("Erro na execucao do servidor: "+e);
             System.exit(1);
@@ -77,11 +83,64 @@ public class AtenderPedidos extends Thread{
     }
 
     public String tipoMensagem(String mensagem){
-        int indexVirgula = mensagem.indexOf(",");
+        if(mensagem != null && mensagem.contains(",")){
+            return mensagem.substring(0, mensagem.indexOf(","));
+        }else{
+            return mensagem;
+        }
+    }
 
-        String tipoMensagem = mensagem.substring(0, indexVirgula);
+    //Thread para verificar os tempos
+    public boolean verificarSessionTimeout(Thread threadParaRemover){
+        boolean paraTerminar = false;
 
-        return tipoMensagem;
+        Thread threadVerificarSessionTimeout = new Thread(){
+            public void run(){
+                try {
+                    while(true){
+                        if(ultimaInteracao >= sessionTimeout){
+                            printOut.println("SESSION_TIMEOUT");
+
+                            if(bufferIn.readLine() == null){
+                                sessaoAtual.removerUtilizador(threadParaRemover, nomeUtilizador);//remover das threads ativas
+                                enviarParaTodos(sessaoAtual.getAtenderPedidos());//Enviar para toda a gente
+                               
+                                //fechar tudo
+                                bufferIn.close();
+                                printOut.close();
+                                ligacao.close();
+
+                                return;
+                            }  
+                        }
+    
+                        this.sleep(1000);
+
+                        ultimaInteracao++;//Adicionar 1 seg à interação
+                    }
+                } catch (InterruptedException | IOException e) {
+                    System.out.println(e);
+                }
+            }
+        };
+
+        threadVerificarSessionTimeout.start();
+        return paraTerminar;
     }
     
+
+    public void setSessionTimeout(int sessionTimeout){
+        this.sessionTimeout = sessionTimeout;
+    }
+
+    public void enviarParaTodos(ArrayList<AtenderPedidos> repThreads){
+        for(AtenderPedidos thread: repThreads){
+            System.out.println("A enviar para thread " + thread);
+            thread.getPrintOut().println(sessaoAtual.getInfoSession2Send());
+        }
+    }
+
+    public PrintWriter getPrintOut(){
+        return this.printOut;
+    }
 }

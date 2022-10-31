@@ -42,14 +42,12 @@ public class SessaoAtual {
         this.repThreads = repThreads;
     }
 
-    public void enviarParaTodos(PrintWriter printOut){
-        for(AtenderPedidos thread: repThreads){
-            System.out.println("A enviar para thread " + thread);
-            printOut.println(getInfoSession2Send());
-        }
+    public void removerUtilizador(Thread threadUtilizador, String nickUtilizador){//Remover thread e utilizador do repositorio
+        repThreads.remove(threadUtilizador);
+        repAgenteUtilizador.removerClienteNome(nickUtilizador);
     }
 
     public String getInfoSession2Send(){
-        return "SESSION_UPDATE," + repAgenteUtilizador.getNickAgentesUtilizador().toString()+ "," + repPosts.getRepositorioPosts().toString();
+        return "SESSION_UPDATE," + repAgenteUtilizador.getNomeUtilizadorAgenteUtilizador().toString()+ "," + repPosts.getRepInString().toString();
     }
 }

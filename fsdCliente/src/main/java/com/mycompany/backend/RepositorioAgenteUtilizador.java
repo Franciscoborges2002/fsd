@@ -11,7 +11,6 @@ import java.util.*;
 
 public class RepositorioAgenteUtilizador {
     private ArrayList<String> agentesUtilizador;
-    private int id;
 
     public RepositorioAgenteUtilizador(){
         agentesUtilizador = new ArrayList<>();
@@ -25,10 +24,10 @@ public class RepositorioAgenteUtilizador {
         this.agentesUtilizador = agentesUtilizadores;
     }
     
-    public void listarRep(){
+    public void listar(){
         System.out.println("Listar utilizadores:");
-        for (int i = 0; i < agentesUtilizador.size(); i++) {
-            System.out.println(agentesUtilizador.get(i));
+        for(String agentUtilizador: agentesUtilizador){
+            System.out.println(agentUtilizador);
         }
     }
 

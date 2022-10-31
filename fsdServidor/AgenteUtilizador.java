@@ -3,27 +3,18 @@
 */
 
 public class AgenteUtilizador {
-    String nomeCliente;
-    int segundosTimeout = 120;
-    
-    public AgenteUtilizador(String nick, int segundosTimeout){
-        this.nomeCliente = nick;
-        this.segundosTimeout = segundosTimeout;
+    String nomeUtilziador;
+
+    public AgenteUtilizador(String nomeUtilziador){
+
+        this.nomeUtilziador = nomeUtilziador;
     }
 
-    public void setNickAgenteUtilziador(String nick){
-        this.nomeCliente = nick;
+    public void setNomeUtilizadorAgentesUtilizador(String nomeUtilziador){
+        this.nomeUtilziador = nomeUtilziador;
     }
 
-    public String getNickAgenteUtilizador(){
-        return this.nomeCliente;
-    }
-
-    public void setSegundosTimeout(int segundosTimeout){
-        this.segundosTimeout = segundosTimeout;
-    }
-
-    public int getSegundosTimeout(){
-        return this.segundosTimeout;
+    public String getNomeUtilizadorAgenteUtilizador(){
+        return this.nomeUtilziador;
     }
 }

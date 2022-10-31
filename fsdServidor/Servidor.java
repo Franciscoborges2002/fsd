@@ -1,17 +1,21 @@
 import java.net.*;
+import java.util.Scanner;
 import java.io.*;
 
 
 public class Servidor {
-    private static int DEFAULT_PORT=2001;
+    private int port = 2001;
     private SessaoAtual sessaoAtual;
+    private int sessionTimeout;
+    Scanner scanner = new Scanner(System.in);
 
     public Servidor(){
         this.sessaoAtual = new SessaoAtual();
     }
 
     public void iniciar() throws IOException{
-        int port = DEFAULT_PORT;
+        System.out.println("Qual o tempo do sessionTimeout: ");
+        sessionTimeout = Integer.parseInt(scanner.nextLine());
 
         ServerSocket servidor = new ServerSocket(port);//Criar servidor socket
         
@@ -24,10 +28,10 @@ public class Servidor {
                 AtenderPedidos pedidoConexao = new AtenderPedidos(ligacao, sessaoAtual);
 
                 sessaoAtual.getAtenderPedidos().add(pedidoConexao);
+                pedidoConexao.setSessionTimeout(sessionTimeout);
                 pedidoConexao.start();
             } catch (IOException e) {
 				System.out.println("Erro na execucao do servidor: "+e);
-				System.exit(1);
 			}
         }
         //servidor.close();

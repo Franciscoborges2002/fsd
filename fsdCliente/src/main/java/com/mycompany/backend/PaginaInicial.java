@@ -5,15 +5,17 @@
 package com.mycompany.backend;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class PaginaInicial extends javax.swing.JFrame {
+    private ConectarServidor conectarServidor;
 
-    /**
-     * Creates new form NewJFrame
-     */
     public PaginaInicial() {
         initComponents();
+        this.conectarServidor = new ConectarServidor();
     }
 
     /**
@@ -36,6 +38,7 @@ public class PaginaInicial extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("fsdChat");
 
         botaoConectar.setText("Conectar");
         botaoConectar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -160,15 +163,34 @@ public class PaginaInicial extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoConectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoConectarMouseClicked
         System.out.println("Tentar conectar");
         if("".equals(espacoTextoNome.getText())){
-            JOptionPane.showMessageDialog(null, "Tens de inserir um nome para te poderes entrar no servidor!",
-      "ERROR!", JOptionPane.ERROR_MESSAGE);
-        }else{
-            System.out.println("oi");
+            JOptionPane.showMessageDialog(null, "Tens de inserir um nome para te poderes entrar no servidor!","ERROR!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        //Dar set a todas a variaveis no conectarServidor
+        conectarServidor.setNomeUtilizador(espacoTextoNome.getText());
+        conectarServidor.setIpServidor(espacoTextoIp.getText());
+        conectarServidor.setPortaServidor(Integer.parseInt(espacoTextoPorta.getText()));
+        conectarServidor.setTaxaAtualizacao(Integer.parseInt(espacoTextoTaxaAtualizacao.getText()));
+        
+        try {
+            conectarServidor.conectar();
+        } catch (IOException ex) {
+            Logger.getLogger(PaginaInicial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(conectarServidor.estaConectado()){//Coneguimos nos conectar
+            PaginaChat chat = new PaginaChat(conectarServidor);
+            chat.setVisible(true);
+            this.dispose();
+        }else{//Nao esta conectado
+            JOptionPane.showMessageDialog(null, "Não conseguiste te conectar ao servidor!","ERROR!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botaoConectarMouseClicked
 
