@@ -1,5 +1,11 @@
 ## Milestones
 
+### Fase 2
+|<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
+|------------------------------------|---------------------------|-------------------------|
+|Inicio fase 2            | <p align="center">❌</p>  |---              |
+
+### Fase 1
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
 |------------------------------------|---------------------------|-------------------------|
 |Servidor TCP com sockets            | <p align="center">✔️</p>  |16/10/2022               |
@@ -28,4 +34,4 @@
 |fase 1: ponto 8         | <p align="center">✔️</p>  |31/10/2022              |
 |Enviar mensagem para todos os agentes utilizadores cada vez que houver uma atualização no servidor         | <p align="center">✔️</p>  |29/10/2022               |
 |fase 1: ponto 9         | <p align="center">✔️</p>  |31/10/2022               |
-|Fazer relatório fase 1         | <p align="center">❌</p>  |---               |
+|Fazer relatório fase 1         | <p align="center">✔️</p>  |31/10/2022        |
