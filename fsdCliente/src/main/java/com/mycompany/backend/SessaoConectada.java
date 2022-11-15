@@ -58,6 +58,7 @@ public class SessaoConectada {
             }else{//Caso não tenha virgula
                 if(posts.length() != 0){//Caso tenha mais que 1 car, quer dizer que tem 1 mensagem
                     //ADICIONAR O ÚNICO POST 
+                    System.out.println("index"+ indexAdicionarPost + ", post: " + posts);
                     arrayList.add(indexAdicionarPost, posts);
                 }
             }

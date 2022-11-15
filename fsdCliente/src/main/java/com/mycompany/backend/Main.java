@@ -12,10 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException{
         System.out.println("Cliente iniciado!");
         
-        //ConectarServidor conexaoServidor = new ConectarServidor();
         PaginaInicial paginaInicial = new PaginaInicial();
         paginaInicial.setVisible(true);
-          
-        //conexaoServidor.conectar();
     }
 }

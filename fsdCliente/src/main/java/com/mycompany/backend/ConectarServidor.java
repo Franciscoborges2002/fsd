@@ -173,7 +173,9 @@ public class ConectarServidor extends Thread{
     //Metodo para se desconectar do servidor
     public void desconectarServidor() throws Exception{
         try {
-            ligacao.close();
+            this.ligacao.close();//Fechar ligação
+            this.bufferIn.close();//Fechar buffer para receber mensagens na ligação
+            this.printOut.close();//Fechar buffer para enviar mensagens na ligação
         } catch (IOException e) {
             throw new Exception(e);
         }

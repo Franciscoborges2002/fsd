@@ -45,6 +45,11 @@ public class PaginaChat extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("chat");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         EspacoTextoMensagem.setToolTipText("Inserir mensagem a enviar");
 
@@ -146,18 +151,16 @@ public class PaginaChat extends javax.swing.JFrame {
 
     private void botaoDesconectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoDesconectarMouseClicked
         //DESCONECTAR DO SERVIDOR
-        try{
-            conectarServidor.desconectarServidor();
-            System.exit(0);
-            
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e,"ERROR!", JOptionPane.ERROR_MESSAGE);
-        }
+        boxSair();
     }//GEN-LAST:event_botaoDesconectarMouseClicked
 
     private void botaoAtualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoAtualizarMouseClicked
         conectarServidor.sessionRequestForced();
     }//GEN-LAST:event_botaoAtualizarMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        boxSair();
+    }//GEN-LAST:event_formWindowClosing
     
     //Thread para atualizar a informação
     Thread threadAtualizar = new Thread(){
@@ -204,6 +207,23 @@ public class PaginaChat extends javax.swing.JFrame {
         }
     };
    
+    private void boxSair(){
+        int option = JOptionPane.showConfirmDialog(null, "Quere mesmo sair do chat?", "Seleciona", JOptionPane.YES_NO_OPTION);
+        
+        if(option == 0){//O cliente quer sair
+                    
+        try{
+            conectarServidor.desconectarServidor();
+            
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e,"ERROR!", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        System.exit(0);
+        }
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField EspacoTextoMensagem;
@@ -218,3 +238,4 @@ public class PaginaChat extends javax.swing.JFrame {
     private javax.swing.JList<String> listaPosts;
     // End of variables declaration//GEN-END:variables
 }
+

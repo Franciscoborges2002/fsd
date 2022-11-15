@@ -23,7 +23,7 @@ public class RepositorioPosts {
 
     public void adicionarPost(String mensagem){
         
-        if(mensagem == ""){//Se a mensagem não contiver nome nem mensagem, não adicionar
+        if("".equals(mensagem)){//Se a mensagem não contiver nome nem mensagem, não adicionar
             return;
         }
         if(posts.size() >= 10){

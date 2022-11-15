@@ -3,7 +3,8 @@
 ### Fase 2
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
 |------------------------------------|---------------------------|-------------------------|
-|Inicio fase 2            | <p align="center">❌</p>  |---              |
+|Inicio fase 2            | <p align="center">✔️</p>  |14/11/2022                 |
+|Reparar Bugs fase 1:           | <p align="center">✔️</p>  |14/11/2022                 |
 
 ### Fase 1
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
@@ -35,3 +36,10 @@
 |Enviar mensagem para todos os agentes utilizadores cada vez que houver uma atualização no servidor         | <p align="center">✔️</p>  |29/10/2022               |
 |fase 1: ponto 9         | <p align="center">✔️</p>  |31/10/2022               |
 |Fazer relatório fase 1         | <p align="center">✔️</p>  |31/10/2022        |
+
+### Bugs fase 1
+|<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
+|------------------------------------|---------------------------|-------------------------|
+|Bug ao clicar no cliente no "X", o servidor vai a baixo | <p align="center">✔️</p>  |14/11/2022    |
+|Bug do heapSpace           | <p align="center">❌</p>  |-----    |
+|Bug primeira mensagem           | <p align="center">❌</p>  |-----    |
