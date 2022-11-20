@@ -4,7 +4,11 @@
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
 |------------------------------------|---------------------------|-------------------------|
 |Inicio fase 2            | <p align="center">✔️</p>  |14/11/2022                 |
-|Reparar Bugs fase 1:           | <p align="center">✔️</p>  |14/11/2022                 |
+|Reparar Bugs fase 1:           | <p align="center">✔️</p>  |20/11/2022                 |
+|Ao iniciar o GUI permite escolher se pretende receber mensagens diretas ou não| <p align="center">❌</p>  |20/11/2022|
+|Servidor recebe quem pode enviar mensagem, e guarda| <p align="center">❌</p>  |20/11/2022|
+|Ao enviar presencas, envia também quem recebe mensagens| <p align="center">❌</p>  |20/11/2022|
+|Meter interfaces no cliente para receber| <p align="center">❌</p>  |20/11/2022|
 
 ### Fase 1
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
