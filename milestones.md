@@ -5,6 +5,10 @@
 |------------------------------------|---------------------------|-------------------------|
 |Inicio fase 2            | <p align="center">✔️</p>  |14/11/2022                 |
 |Reparar Bugs fase 1:           | <p align="center">✔️</p>  |14/11/2022                 |
+|Mudar mensagem inicial cliente: adicionar ipUtilizador e se quer receber mensagens ou não           | <p align="center">✔️</p>  |17/11/2022                 |
+|Mudar como o servidor recebe a mensagem inicial do cliente           | <p align="center">✔️</p>  |17/11/2022                 |
+|Todos os sessions update tem que recebe mensagens privadas           | <p align="center">❌</p>  |17/11/2022                 |
+|Reestruturar o session update na parte do cliente| <p align="center">❌</p>  |17/11/2022                 |
 
 ### Fase 1
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
@@ -41,5 +45,6 @@
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
 |------------------------------------|---------------------------|-------------------------|
 |Bug ao clicar no cliente no "X", o servidor vai a baixo | <p align="center">✔️</p>  |14/11/2022    |
+|Refazer separar mensagens parte cliente| <p align="center">❌</p>  |-----    |
 |Bug do heapSpace           | <p align="center">❌</p>  |-----    |
 |Bug primeira mensagem           | <p align="center">❌</p>  |-----    |

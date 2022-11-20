@@ -38,10 +38,11 @@ public class SessaoConectada {
         while(temMensagens){
             temMaisVirgula = posts.contains(",");
             
-            if(temMaisVirgula){//Caso tenha virgula
+            if(temMaisVirgula && "".equals(posts)){//Caso tenha virgula
                 if(numeroCharEmString(posts, ":") == 1){//Se tiver apenas 1 vez :
                     System.out.println("Post único com virgula");
                     arrayList.add(indexAdicionarPost, posts);
+                    posts = "";
                 }else{//Se tiver mais do que 1 vez
                     System.out.println("Vários posts");
                     //Ir adicionando posts
@@ -59,7 +60,9 @@ public class SessaoConectada {
                 if(posts.length() != 0){//Caso tenha mais que 1 car, quer dizer que tem 1 mensagem
                     //ADICIONAR O ÚNICO POST 
                     System.out.println("index"+ indexAdicionarPost + ", post: " + posts);
+                    System.out.println("Post único sem virgula");
                     arrayList.add(indexAdicionarPost, posts);
+                    posts = "";
                 }
             }
             

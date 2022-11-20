@@ -6,7 +6,6 @@ package com.mycompany.backend;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,9 +19,27 @@ public class ConectarServidor extends Thread{
     private InetAddress servidorConectar;
     private Socket ligacao;
     private String nomeUtilizador;
+    private Boolean mensagensPrivadas;
+    private String ipAgenteUtilizador;
     
     public void run(){
         
+    }
+    
+    public String getIpAgenteUtilizador(){
+        return this.ipAgenteUtilizador;
+    }
+    
+    public void setIpAgenteUtilizador(String ipAgenteUtilizador){
+        this.ipAgenteUtilizador = ipAgenteUtilizador;
+    }
+    
+    public Boolean getMensagensPrivadas(){
+        return this.mensagensPrivadas;
+    }
+    
+    public void setMensagensPrivadas(Boolean mensagensPrivadas){
+        this.mensagensPrivadas = mensagensPrivadas;
     }
     
     public void setNomeUtilizador(String nomeUtilizador){
@@ -56,7 +73,7 @@ public class ConectarServidor extends Thread{
             this.printOut = new PrintWriter(ligacao.getOutputStream(), true);
 
             //Enviar a primeira request e receber a resposta
-            printOut.println("SESSION_UPDATE_REQUEST," + nomeUtilizador);
+            printOut.println("SESSION_UPDATE_REQUEST," + nomeUtilizador + "," + ipAgenteUtilizador + "," + mensagensPrivadas);
 
             //Ler resposta do servidor
             String resposta = bufferIn.readLine();

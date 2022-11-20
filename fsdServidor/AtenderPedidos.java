@@ -25,7 +25,8 @@ public class AtenderPedidos extends Thread{
     }
 
     public void run(){//Mudar, para quando aceitar uma ligação criar o cliente e adicioanr ao repositorio do servidor
-        String pedido, mensagem;
+        String pedido, mensagem, ipUtilizador;
+        Boolean recebeMensagens;
         verificarSessionTimeout(this);
 
         try{ 
@@ -43,13 +44,28 @@ public class AtenderPedidos extends Thread{
                 switch(tipoMensagem(pedido)){
                     case "SESSION_UPDATE_REQUEST":
                         if(!(pedido.length() == 22)){//Se tiver diferente de 22 caracteres adicionar nome
+                            System.out.println(pedido);
                             //Remover tipo mensagem
                             pedido = pedido.substring(pedido.indexOf(",") +1);
 
-                            //fazer o que é preciso
-                            nomeUtilizador = pedido.substring(0);//separa o nick
+                            //Adicionar nome utilizador
+                            nomeUtilizador = pedido.substring(0, pedido.indexOf(","));//separa o nick
 
-                            AgenteUtilizador novoCliente = new AgenteUtilizador(nomeUtilizador);//Criar AgenteUtilziador
+                            //Remover nomeUtilizador
+                            pedido = pedido.substring(pedido.indexOf(",") +1);
+                            System.out.println(pedido);
+
+                            //ip servidor
+                            ipUtilizador = pedido.substring(0, pedido.indexOf(","));//separa o nick
+
+                            //Remover nomeUtilizador
+                            pedido = pedido.substring(pedido.indexOf(",") +1);
+                            System.out.println(pedido);
+
+                            //Receber se o cliente vai querer receber mensagens privadas
+                            recebeMensagens = Boolean.parseBoolean(pedido.substring(0));
+
+                            AgenteUtilizador novoCliente = new AgenteUtilizador(nomeUtilizador, ipUtilizador, recebeMensagens);//Criar AgenteUtilziador
                             sessaoAtual.getRepAgenteUtilizador().adicionarCliente(novoCliente);//Adicionar repositorio
                             
                             //Enviar para todos os utilizadores

@@ -4,10 +4,19 @@
 
 public class AgenteUtilizador {
     String nomeUtilziador;
+    String ipUtilizador;
+    Boolean recebeMensagensPrivadas;
 
-    public AgenteUtilizador(String nomeUtilziador){
-
+    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean receberMensagensPrivadas){
         this.nomeUtilziador = nomeUtilziador;
+    }
+
+    public void setIpUtilizador(String ipUtilizador){
+        this.ipUtilizador = ipUtilizador;
+    }
+
+    public String getIpUtilizador(){
+        return this.ipUtilizador;
     }
 
     public void setNomeUtilizadorAgentesUtilizador(String nomeUtilziador){
