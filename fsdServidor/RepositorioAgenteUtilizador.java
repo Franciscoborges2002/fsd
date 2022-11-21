@@ -74,14 +74,18 @@ public class RepositorioAgenteUtilizador {
         return agenteUtilizador;
     }
 
-    public ArrayList<String> getNomeUtilizadorAgenteUtilizador(){
+    public ArrayList<String> getAgentesUtilizadores(){
         ArrayList<String> nomesUtilizadoresAgentesUtilizadores = new ArrayList<String>();
 
-        //Passar por todos os valores doa hash table
+        //Passar por todos os valores da hash table
         for (Map.Entry<Integer, AgenteUtilizador> entry : agentesUtilizador.entrySet()) {
             AgenteUtilizador agenteUtilizador = entry.getValue();
 
-            nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador());
+            if(agenteUtilizador.recebeMensagensPrivadas()){
+                nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")");
+            }else{
+                nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador());
+            }
         }
 
         return nomesUtilizadoresAgentesUtilizadores;

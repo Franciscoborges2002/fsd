@@ -7,8 +7,14 @@ public class AgenteUtilizador {
     String ipUtilizador;
     Boolean recebeMensagensPrivadas;
 
-    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean receberMensagensPrivadas){
+    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas){
         this.nomeUtilziador = nomeUtilziador;
+        this.ipUtilizador = ipUtilizador;
+        this.recebeMensagensPrivadas = recebeMensagensPrivadas;
+    }
+
+    public boolean recebeMensagensPrivadas(){
+        return this.recebeMensagensPrivadas;
     }
 
     public void setIpUtilizador(String ipUtilizador){

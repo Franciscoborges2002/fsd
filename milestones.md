@@ -4,19 +4,13 @@
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
 |------------------------------------|---------------------------|-------------------------|
 |Inicio fase 2            | <p align="center">✔️</p>  |14/11/2022                 |
-<<<<<<< HEAD
-|Reparar Bugs fase 1:           | <p align="center">✔️</p>  |14/11/2022                 |
-|Mudar mensagem inicial cliente: adicionar ipUtilizador e se quer receber mensagens ou não           | <p align="center">✔️</p>  |17/11/2022                 |
-|Mudar como o servidor recebe a mensagem inicial do cliente           | <p align="center">✔️</p>  |17/11/2022                 |
-|Todos os sessions update tem que recebe mensagens privadas           | <p align="center">❌</p>  |17/11/2022                 |
-|Reestruturar o session update na parte do cliente| <p align="center">❌</p>  |17/11/2022                 |
-=======
 |Reparar Bugs fase 1:           | <p align="center">✔️</p>  |20/11/2022                 |
-|Ao iniciar o GUI permite escolher se pretende receber mensagens diretas ou não| <p align="center">❌</p>  |20/11/2022|
-|Servidor recebe quem pode enviar mensagem, e guarda| <p align="center">❌</p>  |20/11/2022|
-|Ao enviar presencas, envia também quem recebe mensagens| <p align="center">❌</p>  |20/11/2022|
-|Meter interfaces no cliente para receber| <p align="center">❌</p>  |20/11/2022|
->>>>>>> 84894f1d8769238bdd151f91532fab04c667888d
+|Ao iniciar o GUI permite escolher se pretende receber mensagens diretas ou não| <p align="center">✔️</p>  |17/11/2022|
+|Mudar mensagem inicial cliente: adicionar ipUtilizador e se quer receber mensagens ou não           | <p align="center">✔️</p>  |17/11/2022                 |
+|Mudar como o servidor recebe a mensagem inicial do cliente           | <p align="center">✔️</p>  |20/11/2022                 |
+|Servidor recebe quem recebe mensagens privadas, e guarda| <p align="center">✔️</p>  |20/11/2022|
+|Reestruturar o session update na parte do cliente| <p align="center">✔️</p>  |20/11/2022                 |
+|Meter interfaces no cliente para receber as mensagens privadas| <p align="center">❌</p>  |20/11/2022|
 
 ### Fase 1
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
@@ -53,6 +47,6 @@
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
 |------------------------------------|---------------------------|-------------------------|
 |Bug ao clicar no cliente no "X", o servidor vai a baixo | <p align="center">✔️</p>  |14/11/2022    |
-|Refazer separar mensagens parte cliente| <p align="center">❌</p>  |-----    |
-|Bug do heapSpace           | <p align="center">❌</p>  |-----    |
-|Bug primeira mensagem           | <p align="center">❌</p>  |-----    |
+|Refazer separar mensagens parte cliente| <p align="center">✔️</p>  |20/11/2022    |
+|Bug do heapSpace           | <p align="center">✔️</p>  |20/11/2022    |
+|Bug primeira mensagem           | <p align="center">✔️</p>  |20/11/2022    |

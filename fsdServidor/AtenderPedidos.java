@@ -43,7 +43,7 @@ public class AtenderPedidos extends Thread{
     
                 switch(tipoMensagem(pedido)){
                     case "SESSION_UPDATE_REQUEST":
-                        if(!(pedido.length() == 22)){//Se tiver diferente de 22 caracteres adicionar nome
+                        if(!(pedido.length() == 22)){//Se tiver diferente de 22 caracteres adicionar nome, ip utilizador e se quer receber mensagens ou não
                             System.out.println(pedido);
                             //Remover tipo mensagem
                             pedido = pedido.substring(pedido.indexOf(",") +1);
@@ -53,14 +53,12 @@ public class AtenderPedidos extends Thread{
 
                             //Remover nomeUtilizador
                             pedido = pedido.substring(pedido.indexOf(",") +1);
-                            System.out.println(pedido);
 
                             //ip servidor
                             ipUtilizador = pedido.substring(0, pedido.indexOf(","));//separa o nick
 
-                            //Remover nomeUtilizador
+                            //Remover ipUtilizador
                             pedido = pedido.substring(pedido.indexOf(",") +1);
-                            System.out.println(pedido);
 
                             //Receber se o cliente vai querer receber mensagens privadas
                             recebeMensagens = Boolean.parseBoolean(pedido.substring(0));
@@ -151,7 +149,7 @@ public class AtenderPedidos extends Thread{
 
     public void enviarParaTodos(ArrayList<AtenderPedidos> repThreads){
         for(AtenderPedidos thread: repThreads){
-            System.out.println("A enviar para thread " + thread);
+            /* TODO: Remover */System.out.println("A enviar para thread " + thread);
             thread.getPrintOut().println(sessaoAtual.getInfoSession2Send());
         }
     }

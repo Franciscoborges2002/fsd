@@ -48,6 +48,6 @@ public class SessaoAtual {
     }
 
     public String getInfoSession2Send(){
-        return "SESSION_UPDATE," + repAgenteUtilizador.getNomeUtilizadorAgenteUtilizador().toString()+ "," + repPosts.getRepInString().toString();
+        return "SESSION_UPDATE," + repAgenteUtilizador.getAgentesUtilizadores().toString()+ "," + repPosts.getRepInString().toString();
     }
 }
