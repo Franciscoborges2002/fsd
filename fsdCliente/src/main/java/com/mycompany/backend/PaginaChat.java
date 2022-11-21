@@ -210,7 +210,7 @@ public class PaginaChat extends javax.swing.JFrame {
             
             while(true){
                 try {
-                    agentesUtilizadores = conectarServidor.getAgentesUtilizadores();
+                    agentesUtilizadores = conectarServidor.getNomesAgentesUtilizadores();
                     posts = conectarServidor.getPosts();
                     
                     //For para adicionar post ao modelo

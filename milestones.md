@@ -9,7 +9,8 @@
 |Mudar mensagem inicial cliente: adicionar ipUtilizador e se quer receber mensagens ou não           | <p align="center">✔️</p>  |17/11/2022                 |
 |Mudar como o servidor recebe a mensagem inicial do cliente           | <p align="center">✔️</p>  |20/11/2022                 |
 |Servidor recebe quem recebe mensagens privadas, e guarda| <p align="center">✔️</p>  |20/11/2022|
-|Reestruturar o session update na parte do cliente| <p align="center">✔️</p>  |20/11/2022                 |
+|Reestruturar o session update na parte do cliente| <p align="center">✔️</p>  |20/11/2022|
+|Guardar todos os agentes utilizadores na parte do cliente corretamente| <p align="center">✔️</p>  |21/11/2022|
 |Meter interfaces no cliente para receber as mensagens privadas| <p align="center">❌</p>  |20/11/2022|
 
 ### Fase 1

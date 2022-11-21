@@ -173,8 +173,8 @@ public class ConectarServidor extends Thread{
     }
     
     //Função para retornar arraylist com o repositorio de utilizadores
-    public ArrayList<String> getAgentesUtilizadores(){
-        return sessaoConectada.getRepAgenteUtilizador().getRepositorioAgenteUtilizador();
+    public ArrayList<String> getNomesAgentesUtilizadores(){
+        return sessaoConectada.getRepAgenteUtilizador().getNomesAgentesUtilizadores();
     }
     
     //Função para retornar arraylist com o repositorio de posts

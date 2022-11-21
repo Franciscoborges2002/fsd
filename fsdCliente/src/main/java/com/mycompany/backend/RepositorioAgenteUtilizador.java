@@ -10,24 +10,42 @@ package com.mycompany.backend;
 import java.util.*;
 
 public class RepositorioAgenteUtilizador {
-    private ArrayList<String> agentesUtilizador;
+    private ArrayList<AgenteUtilizador> agentesUtilizadores;
 
     public RepositorioAgenteUtilizador(){
-        agentesUtilizador = new ArrayList<>();
+        agentesUtilizadores = new ArrayList<>();
     }
     
-    public ArrayList<String> getRepositorioAgenteUtilizador(){
-        return this.agentesUtilizador;
+    public ArrayList<AgenteUtilizador> getRepositorioAgenteUtilizador(){
+        return this.agentesUtilizadores;
     }
     
-    public void setRepositorioAgenteUtilizador(ArrayList<String> agentesUtilizadores){
-        this.agentesUtilizador = agentesUtilizadores;
+    public void setRepositorioAgenteUtilizador(ArrayList<AgenteUtilizador> agentesUtilizadores){
+        this.agentesUtilizadores = agentesUtilizadores;
+    }
+    
+    public void adicionarAgenteUtilizador(AgenteUtilizador agenteUtilizador){
+        agentesUtilizadores.add(agenteUtilizador);
+    }
+    
+    public ArrayList<String> getNomesAgentesUtilizadores(){
+        ArrayList<String> arrayList = new ArrayList<>();
+        
+        for(AgenteUtilizador agenteUtilizador: agentesUtilizadores){
+            arrayList.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador());
+        }
+        
+        return arrayList;
+    }
+    
+    public void limparLista(){
+        agentesUtilizadores.clear();
     }
     
     public void listar(){
         System.out.println("Listar utilizadores:");
-        for(String agentUtilizador: agentesUtilizador){
-            System.out.println(agentUtilizador);
+        for(AgenteUtilizador agentUtilizador: agentesUtilizadores){
+            System.out.println(agentUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agentUtilizador.getIpUtilizador() + ")");
         }
     }
 
