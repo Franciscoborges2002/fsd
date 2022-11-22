@@ -19,6 +19,27 @@ public class ConectarServidor extends Thread{
     private InetAddress servidorConectar;
     private Socket ligacao;
     private AgenteUtilizador dadosCliente;
+    private ArrayList<AgenteUtilizador> chatsPrivadosAbertos;
+    
+    public void removerAgenteChatPrivado(AgenteUtilizador agenteAdicionar){
+        chatsPrivadosAbertos.remove(agenteAdicionar);
+    }
+    
+    public void adicionarAgenteChatPrivado(AgenteUtilizador agenteAdicionar){
+        chatsPrivadosAbertos.add(agenteAdicionar);
+    }
+    
+    public int numChatsPrivadosAbertos(){
+        return this.chatsPrivadosAbertos.size();
+    }
+    
+    public ArrayList<AgenteUtilizador> getChatsPrivadosAbertos(){
+        return this.chatsPrivadosAbertos;
+    }
+    
+    public void setChatsPrivadosAbertos(ArrayList<AgenteUtilizador> chatsPrivadosAbertos){
+        this.chatsPrivadosAbertos = chatsPrivadosAbertos;
+    }
     
     public void setDadosCliente(AgenteUtilizador dadosCliente){
         this.dadosCliente = dadosCliente;
@@ -45,6 +66,7 @@ public class ConectarServidor extends Thread{
         try {
             //Definir todas as variaveis da classe
             this.sessaoConectada = new SessaoConectada();
+            this.chatsPrivadosAbertos = new ArrayList<AgenteUtilizador>();
 
             this.servidorConectar = InetAddress.getByName(ipServidor);
 
@@ -53,7 +75,7 @@ public class ConectarServidor extends Thread{
             this.bufferIn = new BufferedReader(new InputStreamReader(ligacao.getInputStream()));
 
             this.printOut = new PrintWriter(ligacao.getOutputStream(), true);
-
+            
             //Enviar a primeira request e receber a resposta
             printOut.println("SESSION_UPDATE_REQUEST," + dadosCliente.getNomeUtilizadorAgenteUtilizador() + "," + dadosCliente.getIpUtilizador() + "," + dadosCliente.recebeMensagensPrivadas());
 

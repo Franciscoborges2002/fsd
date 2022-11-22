@@ -173,12 +173,15 @@ public class PaginaChat extends javax.swing.JFrame {
         if(conectarServidor.getDadosCliente().getNomeUtilizadorAgenteUtilizador().equals(listaAgenstesUtilizadores.getSelectedValue())){//Se o nome que ele clicar for o do próprio utilizador
             
         }else{//Se não for
-            if(conectarServidor.getSessaoConectada().getRepAgenteUtilizador().getAgenteByNome(listaAgenstesUtilizadores.getSelectedValue()).recebeMensagensPrivadas()){//Recebe mensagens provadas
+            AgenteUtilizador utilizadorMenPriv = conectarServidor.getSessaoConectada().getRepAgenteUtilizador().getAgenteByNome(listaAgenstesUtilizadores.getSelectedValue());
+            
+            if(utilizadorMenPriv.recebeMensagensPrivadas()){//Recebe mensagens privadas
                 System.out.println("Recebe mensagens privadas");
                 int option = JOptionPane.showConfirmDialog(null, "Deseja enviar mensagem privada a " + listaAgenstesUtilizadores.getSelectedValue(), "Mensagem Privada", JOptionPane.YES_NO_OPTION);
             
                 if(option == 0){//O cliente quer enviar mensagem privada
-                    
+                    PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv);
+                    pagina.setVisible(true);
                 }else{//O cliente não quer enviar mensagem privada
                     return;
                 }
@@ -205,11 +208,16 @@ public class PaginaChat extends javax.swing.JFrame {
                     agentesUtilizadores = conectarServidor.getNomesAgentesUtilizadores();
                     posts = conectarServidor.getPosts();
                     
+                defaultListModelPosts.add(i, "Chat geral.");
+                    
                     //For para adicionar post ao modelo
                     for(String post: posts){
                         defaultListModelPosts.add(i, post);
                         i++;
                     }
+                    
+                    //Adicionar mensagem inicial na lista
+                    
                     i=0;
                     
                     //For para adicionar agenteUtilizador ao modelo
