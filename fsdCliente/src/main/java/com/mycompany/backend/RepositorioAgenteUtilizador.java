@@ -38,6 +38,19 @@ public class RepositorioAgenteUtilizador {
         return arrayList;
     }
     
+    public AgenteUtilizador getAgenteByNome(String nomeUtilizador){
+        AgenteUtilizador agenteRetornar = null;
+        
+        for(AgenteUtilizador agenteUtilizador: agentesUtilizadores){
+            if(nomeUtilizador.equals(agenteUtilizador.getNomeUtilizadorAgenteUtilizador())){
+                agenteRetornar = agenteUtilizador;
+                break;
+            }
+        }
+        
+        return agenteRetornar;
+    }
+    
     public void limparLista(){
         agentesUtilizadores.clear();
     }

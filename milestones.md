@@ -11,7 +11,10 @@
 |Servidor recebe quem recebe mensagens privadas, e guarda| <p align="center">✔️</p>  |20/11/2022|
 |Reestruturar o session update na parte do cliente| <p align="center">✔️</p>  |20/11/2022|
 |Guardar todos os agentes utilizadores na parte do cliente corretamente| <p align="center">✔️</p>  |21/11/2022|
+|UI, ao clicar no nome na lista, pede para ver se quer enviar mensagem| <p align="center">✔️</p>  |21/11/2022|
+|Criação das interfaces| <p align="center">❌</p>  |20/11/2022|
 |Meter interfaces no cliente para receber as mensagens privadas| <p align="center">❌</p>  |20/11/2022|
+|Ao pedir para entrar, verificar se já existe alguém com o nome| <p align="center">❌</p>  |20/11/2022|
 
 ### Fase 1
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|

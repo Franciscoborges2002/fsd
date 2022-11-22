@@ -5,8 +5,6 @@
 package com.mycompany.backend;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 /*
  * Classe para ter todas as informações da sessão atual,
  * por parte do cliente

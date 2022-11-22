@@ -18,32 +18,14 @@ public class ConectarServidor extends Thread{
     private SessaoConectada sessaoConectada;
     private InetAddress servidorConectar;
     private Socket ligacao;
-    private String nomeUtilizador;
-    private Boolean mensagensPrivadas;
-    private String ipAgenteUtilizador;
+    private AgenteUtilizador dadosCliente;
     
-    public void run(){
-        
+    public void setDadosCliente(AgenteUtilizador dadosCliente){
+        this.dadosCliente = dadosCliente;
     }
     
-    public String getIpAgenteUtilizador(){
-        return this.ipAgenteUtilizador;
-    }
-    
-    public void setIpAgenteUtilizador(String ipAgenteUtilizador){
-        this.ipAgenteUtilizador = ipAgenteUtilizador;
-    }
-    
-    public Boolean getMensagensPrivadas(){
-        return this.mensagensPrivadas;
-    }
-    
-    public void setMensagensPrivadas(Boolean mensagensPrivadas){
-        this.mensagensPrivadas = mensagensPrivadas;
-    }
-    
-    public void setNomeUtilizador(String nomeUtilizador){
-        this.nomeUtilizador = nomeUtilizador;
+    public AgenteUtilizador getDadosCliente(){
+        return this.dadosCliente;
     }
     
     public void setIpServidor(String ipServidor){
@@ -73,7 +55,7 @@ public class ConectarServidor extends Thread{
             this.printOut = new PrintWriter(ligacao.getOutputStream(), true);
 
             //Enviar a primeira request e receber a resposta
-            printOut.println("SESSION_UPDATE_REQUEST," + nomeUtilizador + "," + ipAgenteUtilizador + "," + mensagensPrivadas);
+            printOut.println("SESSION_UPDATE_REQUEST," + dadosCliente.getNomeUtilizadorAgenteUtilizador() + "," + dadosCliente.getIpUtilizador() + "," + dadosCliente.recebeMensagensPrivadas());
 
             //Ler resposta do servidor
             String resposta = bufferIn.readLine();
@@ -170,6 +152,10 @@ public class ConectarServidor extends Thread{
         this.sessaoConectada.adicionarPosts(mensagem.substring(0, mensagem.indexOf("]")));
     
         this.sessaoConectada.getRepositorioPosts().listar();//PARA REMOVER
+    }
+    
+    public SessaoConectada getSessaoConectada(){
+        return this.sessaoConectada;
     }
     
     //Função para retornar arraylist com o repositorio de utilizadores

@@ -188,14 +188,13 @@ public class PaginaInicial extends javax.swing.JFrame {
         }
         
         //Dar set a todas a variaveis no conectarServidor
-        conectarServidor.setNomeUtilizador(espacoTextoNome.getText());
         conectarServidor.setIpServidor(espacoTextoIp.getText());
         conectarServidor.setPortaServidor(Integer.parseInt(espacoTextoPorta.getText()));
         conectarServidor.setTaxaAtualizacao(Integer.parseInt(espacoTextoTaxaAtualizacao.getText()));
         if(checkBoxReceberMensagensPrivadas.isSelected()){
-            conectarServidor.setMensagensPrivadas(true);
+            conectarServidor.setDadosCliente(new AgenteUtilizador(espacoTextoNome.getText(), "null", true));
         }else{
-            conectarServidor.setMensagensPrivadas(false);
+            conectarServidor.setDadosCliente(new AgenteUtilizador(espacoTextoNome.getText(), "null", false));
         }
         
         try {
