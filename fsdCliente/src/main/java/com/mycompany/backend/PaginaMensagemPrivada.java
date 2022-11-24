@@ -4,24 +4,87 @@
  */
 package com.mycompany.backend;
 
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 public class PaginaMensagemPrivada extends javax.swing.JFrame {
+
     private ConectarServidor conectarServidor;
     private DefaultListModel defaultListModelMensagensPrivadas = new DefaultListModel();
     private AgenteUtilizador agenteUtilizadorOposto;
+    private final String SERVICE_NAME = "/PostPrivadoRemote";
+    MensagemPrivadaInterface mensagensPrivadas;
+    MensagemPrivadaInterface mp;
+
     /**
      * Creates new form PaginaMensagemPrivada
      */
     public PaginaMensagemPrivada(ConectarServidor conectarServidor, AgenteUtilizador agenteUtilizadorOposto) {
         initComponents();
         this.conectarServidor = conectarServidor;
-        defaultListModelMensagensPrivadas.add(0,"Mensagem Privada para " + agenteUtilizadorOposto.getNomeUtilizadorAgenteUtilizador());
+        defaultListModelMensagensPrivadas.add(0, "Mensagem Privada para " + agenteUtilizadorOposto.getNomeUtilizadorAgenteUtilizador());
         listaMensagensPrivadas.setModel(defaultListModelMensagensPrivadas);
-        
+
         this.agenteUtilizadorOposto = agenteUtilizadorOposto;
         conectarServidor.adicionarAgenteChatPrivado(this.agenteUtilizadorOposto);
+    
+        iniciarMensagensPrivadas();
     }
+
+    private void bindRMI(MensagemPrivada mensagemPrivada) throws RemoteException {
+
+        /*System.getProperties().put( "java.security.policy", "./server.policy");
+
+		if( System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		}*/
+        try {
+            LocateRegistry.createRegistry(1099);
+        } catch (RemoteException e) {
+
+        }
+        try {
+            LocateRegistry.getRegistry("127.0.0.1", 1099).rebind(SERVICE_NAME, mensagemPrivada);
+        } catch (RemoteException e) {
+            System.out.println("Registry not found");
+        }
+    }
+
+    public void iniciarMensagensPrivadas() {
+        MensagemPrivada mensagemPrivada = null;
+
+        try {
+            mensagemPrivada = new MensagemPrivada();
+        } catch (RemoteException re) {//remoteError
+            System.err.println("Error");
+            re.printStackTrace();
+        }
+
+        try {
+            bindRMI(mensagemPrivada);
+        } catch (RemoteException re) {//remoteError
+            System.err.println("Error");
+            re.printStackTrace();
+        }
+    }
+    
+    Thread receberMensagem = new Thread(){
+        public void run(){
+            try {
+                mp = new MensagemPrivada();
+                
+                mensagensPrivadas = (MensagemPrivadaInterface) LocateRegistry.getRegistry("127.0.0.1").lookup(SERVICE_NAME);
+            
+            } catch (Exception e) {
+                System.out.println("ERRO REMOTE " + e);
+            }
+        }
+    };
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,8 +97,8 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         listaMensagensPrivadas = new javax.swing.JList<>();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        campoTextoMensagem = new javax.swing.JTextField();
+        botaoEnviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Mensagem Privada.");
@@ -48,7 +111,12 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(listaMensagensPrivadas);
 
-        jButton1.setText("Enviar");
+        botaoEnviar.setText("Enviar");
+        botaoEnviar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoEnviarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -59,9 +127,9 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoTextoMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
+                        .addComponent(botaoEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -71,8 +139,8 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(campoTextoMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoEnviar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -86,10 +154,14 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
         conectarServidor.removerAgenteChatPrivado(agenteUtilizadorOposto);
     }//GEN-LAST:event_formWindowClosed
 
+    private void botaoEnviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoEnviarMouseClicked
+        System.out.println(campoTextoMensagem.getText());
+    }//GEN-LAST:event_botaoEnviarMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton botaoEnviar;
+    private javax.swing.JTextField campoTextoMensagem;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JList<String> listaMensagensPrivadas;
     // End of variables declaration//GEN-END:variables
 }

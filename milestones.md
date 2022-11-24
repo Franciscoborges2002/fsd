@@ -15,10 +15,19 @@
 |Criar uma jFrame extra para mensagens privadas| <p align="center">✔️</p>  |22/11/2022|
 |Ao fechar, fechar direito| <p align="center">✔️</p>  |22/11/2022|
 |Verificar se já não tem chat privado com a pessoa| <p align="center">❌</p>  |20/11/2022|
-|Criação das interfaces| <p align="center">❌</p>  |20/11/2022|
+|Criação das interfaces| <p align="center">✔️</p>  |24/11/2022|
 |Meter interfaces no cliente para receber as mensagens privadas| <p align="center">❌</p>  |20/11/2022|
 |Ao pedir para entrar, verificar se já existe alguém com o nome| <p align="center">❌</p>  |20/11/2022|
 |Meter repositorio posts numa nova class posts que recebe nome que enviou e a mensagem| <p align="center">❌</p>  |20/11/2022|
+|Quando enviar mensagem privada, aparecer janela no outro utilizador| <p align="center">❌</p>  |20/11/2022|
+|Adicionar botao para atualizar PaginaChat o GUI| <p align="center">❌</p>  |20/11/2022|
+|Ip do RMI, mudar depois| <p align="center">❌</p>  |20/11/2022|
+
+### Bugs fase 2
+|<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
+|------------------------------------|---------------------------|-------------------------|
+|No PaginaChat ao querer sair, no popup se clicarmos não, meter a não fechar a ligação, está a fechar a ligação e o servidor| <p align="center">❌</p>  |20/11/2022|
+
 
 ### Fase 1
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|

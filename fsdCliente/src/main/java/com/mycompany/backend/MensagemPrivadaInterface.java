@@ -7,6 +7,8 @@ package com.mycompany.backend;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface mensagensPrivadasInterface extends Remote {
-    void enviarMensagem() throws RemoteException;
+public interface MensagemPrivadaInterface extends Remote {
+    
+    void enviarMensagem(AgenteUtilizador emissor, String mensagem) throws RemoteException;
+    void receberMensagem(AgenteUtilizador emissor, String mensagem) throws RemoteException;
 }
