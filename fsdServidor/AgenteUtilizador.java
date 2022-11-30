@@ -6,11 +6,21 @@ public class AgenteUtilizador {
     String nomeUtilziador;
     String ipUtilizador;
     Boolean recebeMensagensPrivadas;
+    String protocoloMensagemPrivada;
 
-    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas){
+    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada) {
         this.nomeUtilziador = nomeUtilziador;
         this.ipUtilizador = ipUtilizador;
         this.recebeMensagensPrivadas = recebeMensagensPrivadas;
+        this.protocoloMensagemPrivada = tipoMensagemPrivada;
+    }
+
+    public void setProtocoloMensagemPrivada(String protocolo){
+        this.protocoloMensagemPrivada = protocolo;
+    }
+
+    public String getProtocoloMensagemPrivada(){
+        return this.protocoloMensagemPrivada;
     }
 
     public boolean recebeMensagensPrivadas(){

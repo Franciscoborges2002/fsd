@@ -39,11 +39,6 @@ public class MensagemPrivada extends UnicastRemoteObject implements MensagemPriv
         System.out.println(emissor.getNomeUtilizadorAgenteUtilizador() + emissor.getIpUtilizador() + mensagem);
     }
     
-    @Override
-    public void receberMensagem(AgenteUtilizador emissor, String mensagem){
-        System.out.println(emissor.getNomeUtilizadorAgenteUtilizador() + emissor.getIpUtilizador() + mensagem);
-    }
-    
     public void adicionarMensagem(String mensagem){
         System.out.println("Adicioanr mensagem à arraylist "+mensagem);
     }

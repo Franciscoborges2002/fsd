@@ -12,11 +12,19 @@ public class AgenteUtilizador {
     String nomeUtilziador;
     String ipUtilizador;
     Boolean recebeMensagensPrivadas;
+    String tipoMensagemPrivada;
 
-    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas){
+    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada) {
         this.nomeUtilziador = nomeUtilziador;
         this.ipUtilizador = ipUtilizador;
         this.recebeMensagensPrivadas = recebeMensagensPrivadas;
+        this.tipoMensagemPrivada = tipoMensagemPrivada;
+    }
+
+    public AgenteUtilizador(String nomeUtilziador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada) {
+        this.nomeUtilziador = nomeUtilziador;
+        this.recebeMensagensPrivadas = recebeMensagensPrivadas;
+        this.tipoMensagemPrivada = tipoMensagemPrivada;
     }
 
     public boolean recebeMensagensPrivadas(){
@@ -38,4 +46,30 @@ public class AgenteUtilizador {
     public String getNomeUtilizadorAgenteUtilizador(){
         return this.nomeUtilziador;
     }
+
+    public String getNomeUtilziador() {
+        return nomeUtilziador;
+    }
+
+    public void setNomeUtilziador(String nomeUtilziador) {
+        this.nomeUtilziador = nomeUtilziador;
+    }
+
+    public Boolean getRecebeMensagensPrivadas() {
+        return recebeMensagensPrivadas;
+    }
+
+    public void setRecebeMensagensPrivadas(Boolean recebeMensagensPrivadas) {
+        this.recebeMensagensPrivadas = recebeMensagensPrivadas;
+    }
+
+    public String getTipoMensagemPrivada() {
+        return tipoMensagemPrivada;
+    }
+
+    public void setTipoMensagemPrivada(String tipoMensagemPrivada) {
+        this.tipoMensagemPrivada = tipoMensagemPrivada;
+    }
+    
+    
 }

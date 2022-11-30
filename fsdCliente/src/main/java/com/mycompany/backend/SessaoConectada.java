@@ -55,11 +55,10 @@ public class SessaoConectada {
                 
                 System.out.println("NICKNAME1 " + nickname);
                 
-                arrayList.add(new AgenteUtilizador(nickname, ipUtilizador, recebeMensagens));
+                arrayList.add(new AgenteUtilizador(nickname, recebeMensagens, "RMI"));
                 System.out.println("oioi");
                 
                 utilizadores = utilizadores.substring(utilizadores.indexOf(",") + 2);
-                System.out.println("npooa");
             }else{//Se não tiver virgulas, quer dizer que só tem um nome
                 utilizador = utilizadores;
                 System.out.println("UM UTILIZADOR");
@@ -80,7 +79,7 @@ public class SessaoConectada {
                 
                 System.out.println("NICKNAME2 " + nickname);
                 
-                arrayList.add(new AgenteUtilizador(nickname, ipUtilizador, recebeMensagens));
+                arrayList.add(new AgenteUtilizador(nickname, recebeMensagens, "RMI"));
                 utilizadores = "";
             }
             

@@ -91,6 +91,12 @@ public class RepositorioAgenteUtilizador {
         return nomesUtilizadoresAgentesUtilizadores;
     } 
 
+    public void listar(){
+        for(Map.Entry<Integer, AgenteUtilizador> entry: agentesUtilizador.entrySet()){
+            System.out.println(entry.getKey() + "|" +entry.getValue().getIpUtilizador() + "|" + entry.getValue().getProtocoloMensagemPrivada());
+        }
+    }
+
     public void setClientes(Hashtable<Integer, AgenteUtilizador> tabelaClientes){
         this.agentesUtilizador = tabelaClientes;
     }

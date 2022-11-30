@@ -192,9 +192,9 @@ public class PaginaInicial extends javax.swing.JFrame {
         conectarServidor.setPortaServidor(Integer.parseInt(espacoTextoPorta.getText()));
         conectarServidor.setTaxaAtualizacao(Integer.parseInt(espacoTextoTaxaAtualizacao.getText()));
         if(checkBoxReceberMensagensPrivadas.isSelected()){
-            conectarServidor.setDadosCliente(new AgenteUtilizador(espacoTextoNome.getText(), "null", true));
+            conectarServidor.setDadosCliente(new AgenteUtilizador(espacoTextoNome.getText(), true, "RMI"));
         }else{
-            conectarServidor.setDadosCliente(new AgenteUtilizador(espacoTextoNome.getText(), "null", false));
+            conectarServidor.setDadosCliente(new AgenteUtilizador(espacoTextoNome.getText(), false, "RMI"));
         }
         
         try {

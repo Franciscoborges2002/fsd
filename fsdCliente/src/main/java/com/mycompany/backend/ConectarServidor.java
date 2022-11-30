@@ -77,7 +77,7 @@ public class ConectarServidor extends Thread{
             this.printOut = new PrintWriter(ligacao.getOutputStream(), true);
             
             //Enviar a primeira request e receber a resposta
-            printOut.println("SESSION_UPDATE_REQUEST," + dadosCliente.getNomeUtilizadorAgenteUtilizador() + "," + dadosCliente.getIpUtilizador() + "," + dadosCliente.recebeMensagensPrivadas());
+            printOut.println("SESSION_UPDATE_REQUEST," + dadosCliente.getNomeUtilizadorAgenteUtilizador() + "," + dadosCliente.recebeMensagensPrivadas() + "," + dadosCliente.getTipoMensagemPrivada());
 
             //Ler resposta do servidor
             String resposta = bufferIn.readLine();

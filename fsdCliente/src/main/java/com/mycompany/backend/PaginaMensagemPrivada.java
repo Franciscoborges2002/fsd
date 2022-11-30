@@ -4,12 +4,8 @@
  */
 package com.mycompany.backend;
 
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 public class PaginaMensagemPrivada extends javax.swing.JFrame {
@@ -34,6 +30,7 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
         conectarServidor.adicionarAgenteChatPrivado(this.agenteUtilizadorOposto);
     
         iniciarMensagensPrivadas();
+        receberMensagem.start();
     }
 
     private void bindRMI(MensagemPrivada mensagemPrivada) throws RemoteException {
