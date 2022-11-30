@@ -4,6 +4,7 @@
  */
 package com.mycompany.backend;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -179,9 +180,14 @@ public class PaginaChat extends javax.swing.JFrame {
                 System.out.println("Recebe mensagens privadas");
                 int option = JOptionPane.showConfirmDialog(null, "Deseja enviar mensagem privada a " + listaAgenstesUtilizadores.getSelectedValue(), "Mensagem Privada", JOptionPane.YES_NO_OPTION);
             
-                if(option == 0){//O cliente quer enviar mensagem privada
-                    PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv);
-                    pagina.setVisible(true);
+                if(option == 0){
+                    try {
+                        //O cliente quer enviar mensagem privada
+                        PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv);
+                        pagina.setVisible(true);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(PaginaChat.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }else{//O cliente não quer enviar mensagem privada
                     return;
                 }

@@ -8,11 +8,11 @@ public class AgenteUtilizador {
     Boolean recebeMensagensPrivadas;
     String protocoloMensagemPrivada;
 
-    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada) {
+    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String protocoloMensagemPrivada) {
         this.nomeUtilziador = nomeUtilziador;
         this.ipUtilizador = ipUtilizador;
         this.recebeMensagensPrivadas = recebeMensagensPrivadas;
-        this.protocoloMensagemPrivada = tipoMensagemPrivada;
+        this.protocoloMensagemPrivada = protocoloMensagemPrivada;
     }
 
     public void setProtocoloMensagemPrivada(String protocolo){

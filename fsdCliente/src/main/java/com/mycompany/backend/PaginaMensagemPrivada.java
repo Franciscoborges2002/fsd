@@ -4,8 +4,12 @@
  */
 package com.mycompany.backend;
 
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 public class PaginaMensagemPrivada extends javax.swing.JFrame {
@@ -20,7 +24,7 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
     /**
      * Creates new form PaginaMensagemPrivada
      */
-    public PaginaMensagemPrivada(ConectarServidor conectarServidor, AgenteUtilizador agenteUtilizadorOposto) {
+    public PaginaMensagemPrivada(ConectarServidor conectarServidor, AgenteUtilizador agenteUtilizadorOposto) throws RemoteException {
         initComponents();
         this.conectarServidor = conectarServidor;
         defaultListModelMensagensPrivadas.add(0, "Mensagem Privada para " + agenteUtilizadorOposto.getNomeUtilizadorAgenteUtilizador());
@@ -28,9 +32,19 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
 
         this.agenteUtilizadorOposto = agenteUtilizadorOposto;
         conectarServidor.adicionarAgenteChatPrivado(this.agenteUtilizadorOposto);
+        
+        try {
+            mensagensPrivadas = (MensagemPrivadaInterface) LocateRegistry.getRegistry("127.0.0.1").lookup(SERVICE_NAME);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (AccessException ex) {
+            Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
         iniciarMensagensPrivadas();
         receberMensagem.start();
+        
+        
     }
 
     private void bindRMI(MensagemPrivada mensagemPrivada) throws RemoteException {
@@ -75,13 +89,14 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
             try {
                 mp = new MensagemPrivada();
                 
-                mensagensPrivadas = (MensagemPrivadaInterface) LocateRegistry.getRegistry("127.0.0.1").lookup(SERVICE_NAME);
             
             } catch (Exception e) {
                 System.out.println("ERRO REMOTE " + e);
             }
         }
     };
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -153,6 +168,11 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
 
     private void botaoEnviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoEnviarMouseClicked
         System.out.println(campoTextoMensagem.getText());
+        try {
+            mensagensPrivadas.enviarMensagem(conectarServidor.getDadosCliente(), campoTextoMensagem.getText());
+        } catch (RemoteException ex) {
+            Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_botaoEnviarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -25,7 +25,7 @@ public class AtenderPedidos extends Thread{
     }
 
     public void run(){//Mudar, para quando aceitar uma ligação criar o cliente e adicioanr ao repositorio do servidor
-        String pedido, mensagem, protocoloMensagemPrivada;
+        String pedido, mensagem, protocoloMensagensPrivadas;
         Boolean recebeMensagens;
         verificarSessionTimeout(this);
 
@@ -55,18 +55,16 @@ public class AtenderPedidos extends Thread{
                             pedido = pedido.substring(pedido.indexOf(",") +1);
 
                             //Receber se o cliente vai querer receber mensagens privadas
-                            recebeMensagens = Boolean.parseBoolean(pedido.substring(0,pedido.indexOf(",")));
+                            recebeMensagens = Boolean.parseBoolean(pedido.substring(0));
 
-                            //Remover se quere receber mensagens privadas
-                            pedido = pedido.substring(pedido.indexOf(",") + 1);
+                            //Remover se o cliente vai querer receber mensagens privadas
+                            pedido = pedido.substring(pedido.indexOf(",") +1);
 
-                            //tipo de protocolo
-                            protocoloMensagemPrivada = pedido.substring(0);
+                            //protocoloMensagensPrivadas
+                            protocoloMensagensPrivadas = pedido.substring(0);//separa o nick
 
-                            AgenteUtilizador novoCliente = new AgenteUtilizador(nomeUtilizador, ligacao.getRemoteSocketAddress().toString(), recebeMensagens, protocoloMensagemPrivada);//Criar AgenteUtilziador
+                            AgenteUtilizador novoCliente = new AgenteUtilizador(nomeUtilizador, ligacao.getRemoteSocketAddress().toString(), recebeMensagens, protocoloMensagensPrivadas);//Criar AgenteUtilziador
                             sessaoAtual.getRepAgenteUtilizador().adicionarCliente(novoCliente);//Adicionar repositorio
-
-                            sessaoAtual.getRepAgenteUtilizador().listar();
                             
                             //Enviar para todos os utilizadores
                             enviarParaTodos(sessaoAtual.getAtenderPedidos());
@@ -119,7 +117,7 @@ public class AtenderPedidos extends Thread{
 
                             if(bufferIn.readLine() == null){
                                 sessaoAtual.removerUtilizador(threadParaRemover, nomeUtilizador);//remover das threads ativas
-                                enviarParaTodos(sessaoAtual.getAtenderPedidos());//Enviar para toda a gente
+                                enviarParaTodos(sessaoAtual.getAtenderPedidos());//Enviar para todos os agentes
                                
                                 //fechar tudo
                                 bufferIn.close();
