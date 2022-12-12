@@ -55,7 +55,7 @@ public class AtenderPedidos extends Thread{
                             pedido = pedido.substring(pedido.indexOf(",") +1);
 
                             //Receber se o cliente vai querer receber mensagens privadas
-                            recebeMensagens = Boolean.parseBoolean(pedido.substring(0));
+                            recebeMensagens = Boolean.parseBoolean(pedido.substring(0, pedido.indexOf(",")));
 
                             //Remover se o cliente vai querer receber mensagens privadas
                             pedido = pedido.substring(pedido.indexOf(",") +1);
@@ -66,6 +66,8 @@ public class AtenderPedidos extends Thread{
                             AgenteUtilizador novoCliente = new AgenteUtilizador(nomeUtilizador, ligacao.getRemoteSocketAddress().toString(), recebeMensagens, protocoloMensagensPrivadas);//Criar AgenteUtilziador
                             sessaoAtual.getRepAgenteUtilizador().adicionarCliente(novoCliente);//Adicionar repositorio
                             
+                            /* TODO: remover*/sessaoAtual.getRepAgenteUtilizador().listar();
+
                             //Enviar para todos os utilizadores
                             enviarParaTodos(sessaoAtual.getAtenderPedidos());
                         }else{
@@ -148,6 +150,7 @@ public class AtenderPedidos extends Thread{
     }
 
     public void enviarParaTodos(ArrayList<AtenderPedidos> repThreads){
+        System.out.println(sessaoAtual.getInfoSession2Send());
         for(AtenderPedidos thread: repThreads){
             /* TODO: Remover */System.out.println("A enviar para thread " + thread);
             thread.getPrintOut().println(sessaoAtual.getInfoSession2Send());

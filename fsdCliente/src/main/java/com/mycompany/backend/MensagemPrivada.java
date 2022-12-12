@@ -35,11 +35,16 @@ public class MensagemPrivada extends UnicastRemoteObject implements MensagemPriv
     }
     
     @Override
-    public void enviarMensagem(AgenteUtilizador emissor, String mensagem) throws RemoteException{
+    public void enviarMensagem(String mensagem) throws RemoteException{
         System.out.println(emissor.getNomeUtilizadorAgenteUtilizador() + emissor.getIpUtilizador() + mensagem);
     }
     
     public void adicionarMensagem(String mensagem){
         System.out.println("Adicioanr mensagem à arraylist "+mensagem);
+    }
+
+    @Override
+    public void abrirJanela(AgenteUtilizador emissor) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

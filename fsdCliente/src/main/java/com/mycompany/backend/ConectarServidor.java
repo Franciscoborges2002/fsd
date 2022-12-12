@@ -5,6 +5,7 @@
 package com.mycompany.backend;
 import java.net.*;
 import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,10 @@ public class ConectarServidor extends Thread{
     private Socket ligacao;
     private AgenteUtilizador dadosCliente;
     private ArrayList<AgenteUtilizador> chatsPrivadosAbertos;
+    
+    public boolean chatComUtilizador(AgenteUtilizador agenteUtilizadorEnviarMensagem){
+       return chatsPrivadosAbertos.contains(agenteUtilizadorEnviarMensagem);
+    }
     
     public void removerAgenteChatPrivado(AgenteUtilizador agenteAdicionar){
         chatsPrivadosAbertos.remove(agenteAdicionar);
@@ -92,6 +97,7 @@ public class ConectarServidor extends Thread{
             threadEnviarSessionRequest.start();
         } catch (IOException ex) {
             Logger.getLogger(ConectarServidor.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException();
         }
     }
     

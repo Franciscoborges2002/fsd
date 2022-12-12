@@ -29,45 +29,42 @@ public class SessaoConectada {
         ArrayList<AgenteUtilizador> arrayList = new ArrayList<>();
         
         while(temNomes){
-            System.out.println("TEM NICKS" + temNomes);
+            /*TODO: REMOVER*/System.out.println("TEM NICKS" + temNomes);
             
             if(utilizadores.contains(",")){//Se ainda tiver virgulas, quer dizer que ainda tem nomes
-                System.out.println("Utilizadores " + utilizadores);
-                System.out.println("VARIOS UTILIZADOR");
+                /*TODO: REMOVER*/System.out.println("Utilizadores " + utilizadores);
+                /*TODO: REMOVER*/System.out.println("VARIOS UTILIZADOR");
                 utilizador = utilizadores.substring(0, utilizadores.indexOf(","));
                 //System.out.println("asdasd");
                 
                 if(utilizador.contains("(") && utilizador.contains(")")){//Se contiver, quer dizer que recebe mensagens
-                    System.out.println("asdasd");
                     recebeMensagens = true;
                     ipUtilizador = utilizador.substring(utilizador.indexOf("(") + 1, utilizador.indexOf(")"));
-                    System.out.println("Ip Utilizador1" + ipUtilizador);
+                    /*TODO: REMOVER*/System.out.println("Ip Utilizador1" + ipUtilizador);
                     nickname = utilizador.substring(0, utilizador.indexOf("("));
                 }else{//Não recebe mensagens
-                    System.out.println("asdawojp");
                     recebeMensagens = false;
                     ipUtilizador = null;
-                    System.out.println("çççççççççç pp:" + utilizador.indexOf(","));
+                    /*TODO: REMOVER*/System.out.println("çççççççççç pp:" + utilizador.indexOf(","));
                     nickname = utilizador;
                 }
                 
-                System.out.println("ddddddddddd");
+                /*TODO: REMOVER*/System.out.println("ddddddddddd");
                 
-                System.out.println("NICKNAME1 " + nickname);
+                /*TODO: REMOVER*/System.out.println("NICKNAME1 " + nickname);
                 
-                arrayList.add(new AgenteUtilizador(nickname, recebeMensagens, "RMI"));
-                System.out.println("oioi");
+                arrayList.add(new AgenteUtilizador(nickname, ipUtilizador,recebeMensagens, "RMI"));
                 
                 utilizadores = utilizadores.substring(utilizadores.indexOf(",") + 2);
             }else{//Se não tiver virgulas, quer dizer que só tem um nome
                 utilizador = utilizadores;
-                System.out.println("UM UTILIZADOR");
+                /*TODO: REMOVER*/System.out.println("UM UTILIZADOR");
                 
                 //verificar se o utilizador recebe mensagens
                 if(utilizador.contains("(") && utilizador.contains(")")){//Se contiver, quer dizer que recebe mensagens
                     recebeMensagens = true;
                     ipUtilizador = utilizador.substring(utilizador.indexOf("(") + 1, utilizador.indexOf(")"));
-                    System.out.println("Ip Utilizador2" + ipUtilizador);
+                    /*TODO: REMOVER*/System.out.println("Ip Utilizador2" + ipUtilizador);
                     nickname = utilizador.substring(0, utilizador.indexOf("("));
                 }else{//Não recebe mensagens
                     recebeMensagens = false;
@@ -75,16 +72,16 @@ public class SessaoConectada {
                     nickname = utilizador;
                 }
                 
-                System.out.println("ip ja feito");
+               /*TODO: REMOVER*/ System.out.println("ip ja feito");
                 
-                System.out.println("NICKNAME2 " + nickname);
+                /*TODO: REMOVER*/System.out.println("NICKNAME2 " + nickname);
                 
-                arrayList.add(new AgenteUtilizador(nickname, recebeMensagens, "RMI"));
+                arrayList.add(new AgenteUtilizador(nickname, ipUtilizador,recebeMensagens, "RMI"));
                 utilizadores = "";
             }
             
             if(utilizadores.length() < 1){
-                System.out.println("Não tem utilizadores");
+                /*TODO: REMOVER*/System.out.println("Não tem utilizadores");
                 temNomes = false;
             }
         }

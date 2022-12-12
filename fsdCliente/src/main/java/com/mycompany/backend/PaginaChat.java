@@ -176,26 +176,31 @@ public class PaginaChat extends javax.swing.JFrame {
         }else{//Se não for
             AgenteUtilizador utilizadorMenPriv = conectarServidor.getSessaoConectada().getRepAgenteUtilizador().getAgenteByNome(listaAgenstesUtilizadores.getSelectedValue());
             
-            if(utilizadorMenPriv.recebeMensagensPrivadas()){//Recebe mensagens privadas
-                System.out.println("Recebe mensagens privadas");
-                int option = JOptionPane.showConfirmDialog(null, "Deseja enviar mensagem privada a " + listaAgenstesUtilizadores.getSelectedValue(), "Mensagem Privada", JOptionPane.YES_NO_OPTION);
-            
-                if(option == 0){
-                    try {
-                        //O cliente quer enviar mensagem privada
-                        PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv);
-                        pagina.setVisible(true);
-                    } catch (RemoteException ex) {
-                        Logger.getLogger(PaginaChat.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }else{//O cliente não quer enviar mensagem privada
-                    return;
-                }
+            if(conectarServidor.chatComUtilizador(utilizadorMenPriv)){//Jáa tem chat aberto com o utilziador
+                JOptionPane.showMessageDialog(null, "Já tem chat privado com utilizador selecionado!", "Mensagem Privadas", JOptionPane.ERROR_MESSAGE);
             }else{
-                System.out.println("Não recebe mensagens privadas");
-                JOptionPane.showMessageDialog(null, "Utilizador selecionado não quer receber mensagens privadas!", "Mensagem Privadas", JOptionPane.ERROR_MESSAGE);
+                if(utilizadorMenPriv.recebeMensagensPrivadas()){//Recebe mensagens privadas
+                    System.out.println("Recebe mensagens privadas");
+                    int option = JOptionPane.showConfirmDialog(null, "Deseja enviar mensagem privada a " + listaAgenstesUtilizadores.getSelectedValue(), "Mensagem Privada", JOptionPane.YES_NO_OPTION);
+
+
+                    if(option == 0){
+                        try {
+                            //O cliente quer enviar mensagem privada
+                            PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv);
+                            pagina.setVisible(true);
+                        } catch (RemoteException ex) {
+                            System.out.println("OLHA O ERRO");
+                            Logger.getLogger(PaginaChat.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }else{//O cliente não quer enviar mensagem privada
+                        return;
+                    }
+                }else{
+                    System.out.println("Não recebe mensagens privadas");
+                    JOptionPane.showMessageDialog(null, "Utilizador selecionado não quer receber mensagens privadas!", "Mensagem Privadas", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            
         }
         System.out.println(listaAgenstesUtilizadores.getSelectedValue());
     }//GEN-LAST:event_listaAgenstesUtilizadoresMouseClicked

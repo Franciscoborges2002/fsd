@@ -83,8 +83,9 @@ public class RepositorioAgenteUtilizador {
 
             if(agenteUtilizador.recebeMensagensPrivadas()){
                 nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")");
+                System.out.println(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")");
             }else{
-                nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador());
+                nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(null)");
             }
         }
 
@@ -93,7 +94,7 @@ public class RepositorioAgenteUtilizador {
 
     public void listar(){
         for(Map.Entry<Integer, AgenteUtilizador> entry: agentesUtilizador.entrySet()){
-            System.out.println(entry.getKey() + "|" +entry.getValue().getIpUtilizador() + "|" + entry.getValue().getProtocoloMensagemPrivada());
+            System.out.println(entry.getKey() + "-> " + entry.getValue().getNomeUtilizadorAgenteUtilizador() + "|" +entry.getValue().getIpUtilizador() + "|" + entry.getValue().getProtocoloMensagemPrivada() + "MP:" + entry.getValue().recebeMensagensPrivadas);
         }
     }
 

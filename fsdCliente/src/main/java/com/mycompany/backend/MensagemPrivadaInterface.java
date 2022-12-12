@@ -8,5 +8,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface MensagemPrivadaInterface extends Remote {
-    void enviarMensagem(AgenteUtilizador emissor, String mensagem) throws RemoteException;
+    void enviarMensagem(String mensagem) throws RemoteException;
+    void abrirJanela(AgenteUtilizador emissor)throws RemoteException;
 }

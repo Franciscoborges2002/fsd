@@ -201,6 +201,7 @@ public class PaginaInicial extends javax.swing.JFrame {
             conectarServidor.conectar();
         } catch (IOException ex) {
             Logger.getLogger(PaginaInicial.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Não conseguiste te conectar ao servidor!\n" + ex,"ERROR!", JOptionPane.ERROR_MESSAGE);
         }
         
         if(conectarServidor.estaConectado()){//Coneguimos nos conectar

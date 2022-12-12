@@ -24,17 +24,18 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
     /**
      * Creates new form PaginaMensagemPrivada
      */
-    public PaginaMensagemPrivada(ConectarServidor conectarServidor, AgenteUtilizador agenteUtilizadorOposto) throws RemoteException {
+    public PaginaMensagemPrivada(ConectarServidor conectarServidor, AgenteUtilizador agenteUtilizadorComunicar) throws RemoteException {
         initComponents();
         this.conectarServidor = conectarServidor;
-        defaultListModelMensagensPrivadas.add(0, "Mensagem Privada para " + agenteUtilizadorOposto.getNomeUtilizadorAgenteUtilizador());
+        defaultListModelMensagensPrivadas.add(0, "Mensagem Privada para " + agenteUtilizadorComunicar.getNomeUtilizadorAgenteUtilizador());
         listaMensagensPrivadas.setModel(defaultListModelMensagensPrivadas);
 
-        this.agenteUtilizadorOposto = agenteUtilizadorOposto;
+        this.agenteUtilizadorOposto = agenteUtilizadorComunicar;
         conectarServidor.adicionarAgenteChatPrivado(this.agenteUtilizadorOposto);
         
         try {
-            mensagensPrivadas = (MensagemPrivadaInterface) LocateRegistry.getRegistry("127.0.0.1").lookup(SERVICE_NAME);
+            /*TODO: remove*/System.out.println("Ip a utilizar: " + agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":")));
+            mensagensPrivadas = (MensagemPrivadaInterface) LocateRegistry.getRegistry(agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":"))).lookup(SERVICE_NAME);
         } catch (NotBoundException ex) {
             Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
         } catch (AccessException ex) {
@@ -169,7 +170,7 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
     private void botaoEnviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoEnviarMouseClicked
         System.out.println(campoTextoMensagem.getText());
         try {
-            mensagensPrivadas.enviarMensagem(conectarServidor.getDadosCliente(), campoTextoMensagem.getText());
+            mensagensPrivadas.enviarMensagem(campoTextoMensagem.getText());
         } catch (RemoteException ex) {
             Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
         }
