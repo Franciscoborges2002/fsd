@@ -16,9 +16,9 @@ import javax.swing.JOptionPane;
  * @author Andre
  */
 public class PaginaChat extends javax.swing.JFrame {
-    private ConectarServidor conectarServidor;
+    private Conexoes conectarServidor;
     
-    public PaginaChat(ConectarServidor conectarServidor) {
+    public PaginaChat(Conexoes conectarServidor) {
         initComponents();
         this.conectarServidor = conectarServidor;
         threadAtualizar.start();
@@ -187,7 +187,7 @@ public class PaginaChat extends javax.swing.JFrame {
                     if(option == 0){
                         try {
                             //O cliente quer enviar mensagem privada
-                            PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv);
+                            PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv, "servidor");
                             pagina.setVisible(true);
                         } catch (RemoteException ex) {
                             System.out.println("OLHA O ERRO");

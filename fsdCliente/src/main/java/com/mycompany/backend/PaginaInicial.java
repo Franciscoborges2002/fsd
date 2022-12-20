@@ -6,16 +6,17 @@ package com.mycompany.backend;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class PaginaInicial extends javax.swing.JFrame {
-    private ConectarServidor conectarServidor;
+    private Conexoes conectarServidor;
 
     public PaginaInicial() {
         initComponents();
-        this.conectarServidor = new ConectarServidor();
+        this.conectarServidor = new Conexoes();
     }
 
     /**
@@ -202,6 +203,12 @@ public class PaginaInicial extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(PaginaInicial.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Não conseguiste te conectar ao servidor!\n" + ex,"ERROR!", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        try{
+            conectarServidor.iniciarServidorRMI();
+        }catch(Exception e){
+            System.out.println("error " + e);
         }
         
         if(conectarServidor.estaConectado()){//Coneguimos nos conectar

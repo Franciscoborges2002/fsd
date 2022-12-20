@@ -6,11 +6,13 @@ package com.mycompany.backend;
 import java.net.*;
 import java.io.*;
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConectarServidor extends Thread{
+public class Conexoes extends Thread{
     private String ipServidor;
     private int portaServidor;
     private int taxaAtualizacao;
@@ -21,6 +23,7 @@ public class ConectarServidor extends Thread{
     private Socket ligacao;
     private AgenteUtilizador dadosCliente;
     private ArrayList<AgenteUtilizador> chatsPrivadosAbertos;
+    private final String SERVICE_NAME = "/mensagemPrivada";
     
     public boolean chatComUtilizador(AgenteUtilizador agenteUtilizadorEnviarMensagem){
        return chatsPrivadosAbertos.contains(agenteUtilizadorEnviarMensagem);
@@ -96,7 +99,7 @@ public class ConectarServidor extends Thread{
             //iniciar a thread para enviar SESSION_UPDATE_REQUEST
             threadEnviarSessionRequest.start();
         } catch (IOException ex) {
-            Logger.getLogger(ConectarServidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Conexoes.class.getName()).log(Level.SEVERE, null, ex);
             throw new IOException();
         }
     }
@@ -142,7 +145,7 @@ public class ConectarServidor extends Thread{
                     }
                 }
             } catch (IOException e) {
-                Logger.getLogger(ConectarServidor.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(Conexoes.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     };
@@ -161,7 +164,7 @@ public class ConectarServidor extends Thread{
                     this.sleep(taxaAtualizacao * 1000);
                 }
             } catch (InterruptedException /*| IOException*/ e) {
-                Logger.getLogger(ConectarServidor.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(Conexoes.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     };
@@ -210,5 +213,36 @@ public class ConectarServidor extends Thread{
         } catch (IOException e) {
             throw new Exception(e);
         }
+    }
+    
+    private void bindRMI(MensagemPrivada mensagemPrivada) throws RemoteException {
+	try { 
+            LocateRegistry.createRegistry(1099);
+	} catch( RemoteException e) {
+			
+	}
+	try {
+            LocateRegistry.getRegistry("127.0.0.1",1099).rebind(SERVICE_NAME, mensagemPrivada);
+	} catch( RemoteException e) {
+            System.out.println("Registry not found");
+	}
+    }
+    
+    public void iniciarServidorRMI(){//Iniciar o servidor de RMI
+        MensagemPrivada mensagemPrivada = null;
+        
+        try {
+            mensagemPrivada = new MensagemPrivada();
+	} catch (RemoteException e1) {
+            System.err.println("unexpected error...");
+            e1.printStackTrace();
+        }
+		
+	try {
+            bindRMI(mensagemPrivada);
+	} catch (RemoteException e1) {
+            System.err.println("erro ao registar o stub...");
+            e1.printStackTrace();
+	}
     }
 }
