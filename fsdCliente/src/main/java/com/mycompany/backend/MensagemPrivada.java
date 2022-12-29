@@ -6,45 +6,32 @@ package com.mycompany.backend;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 public class MensagemPrivada extends UnicastRemoteObject implements MensagemPrivadaInterface {
-    ArrayList<String> mensagens;
-    AgenteUtilizador emissor;
-    String mensagem;
+    Conexoes conectarServidor;
 
-    public MensagemPrivada() throws RemoteException {
+    public MensagemPrivada(Conexoes conectarServidor) throws RemoteException {
         super();
-        mensagens = new ArrayList<>();
-    }
-
-    public AgenteUtilizador getEmissor() {
-        return emissor;
-    }
-
-    public void setEmissor(AgenteUtilizador emissor) {
-        this.emissor = emissor;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
+        this.conectarServidor = conectarServidor;
     }
     
-    public void adicionarMensagem(String mensagem){
-        System.out.println("Adicioanr mensagem à arraylist "+mensagem);
-    }
-    
-        @Override
-    public void enviarMensagem(String mensagem) throws RemoteException{
+    @Override
+    public void enviarMensagem(DefaultListModel mensagem) throws RemoteException{
         System.out.println("MENSAGEMMM "+mensagem);
     }
 
     @Override
-    public void abrirJanela(AgenteUtilizador emissor) throws RemoteException {
-        System.out.println("OLAAA COMUNICAÇÃO BEM SUCEDIDA");
+    public void abrirJanela(String nomeEmissor) throws RemoteException {
+        System.out.println("ABRIR JANELA");
+        AgenteUtilizador agenteEmissor = conectarServidor.getSessaoConectada().getRepAgenteUtilizador().getAgenteByNome(nomeEmissor);
+        
+        //Criar página
+        PaginaMensagemPrivada mensagemPrivadaChatPagina = new PaginaMensagemPrivada(conectarServidor, agenteEmissor, 1);
+        mensagemPrivadaChatPagina.setVisible(true);//Mostrar página
+    }
+    
+    public void enviarMensagemSegura(String mensagem, String assinatura) throws RemoteException{
+        
     }
 }

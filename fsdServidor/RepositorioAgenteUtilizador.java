@@ -82,10 +82,10 @@ public class RepositorioAgenteUtilizador {
             AgenteUtilizador agenteUtilizador = entry.getValue();
 
             if(agenteUtilizador.recebeMensagensPrivadas()){
-                nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")");
-                System.out.println(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")");
+                nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")" + agenteUtilizador.getChavePublica());
+                /*TODO: REMOVER*/System.out.println("A VER AQUIII" + agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")");
             }else{
-                nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(null)");
+                nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(null)" + agenteUtilizador.getChavePublica());
             }
         }
 
@@ -94,7 +94,7 @@ public class RepositorioAgenteUtilizador {
 
     public void listar(){
         for(Map.Entry<Integer, AgenteUtilizador> entry: agentesUtilizador.entrySet()){
-            System.out.println(entry.getKey() + "-> " + entry.getValue().getNomeUtilizadorAgenteUtilizador() + "|" +entry.getValue().getIpUtilizador() + "|" + entry.getValue().getProtocoloMensagemPrivada() + "MP:" + entry.getValue().recebeMensagensPrivadas);
+            System.out.println(entry.getKey() + "-> " + entry.getValue().getNomeUtilizadorAgenteUtilizador() + "|" +entry.getValue().getIpUtilizador() + "|" + entry.getValue().getProtocoloMensagemPrivada() + "MP:" + entry.getValue().recebeMensagensPrivadas + " Chave Publica: " + entry.getValue().getChavePublica());
         }
     }
 

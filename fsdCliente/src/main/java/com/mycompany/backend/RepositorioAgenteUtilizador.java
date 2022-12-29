@@ -40,7 +40,7 @@ public class RepositorioAgenteUtilizador {
     
     public AgenteUtilizador getAgenteByNome(String nomeUtilizador){
         AgenteUtilizador agenteRetornar = null;
-        
+       
         for(AgenteUtilizador agenteUtilizador: agentesUtilizadores){
             if(nomeUtilizador.equals(agenteUtilizador.getNomeUtilizadorAgenteUtilizador())){
                 agenteRetornar = agenteUtilizador;
@@ -58,7 +58,7 @@ public class RepositorioAgenteUtilizador {
     public void listar(){
         System.out.println("Listar utilizadores:");
         for(AgenteUtilizador agentUtilizador: agentesUtilizadores){
-            System.out.println(agentUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agentUtilizador.getIpUtilizador() + ")");
+            System.out.println(agentUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agentUtilizador.getIpUtilizador() + ") ->" + agentUtilizador.getChavePublica());
         }
     }
 

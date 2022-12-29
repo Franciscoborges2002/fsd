@@ -180,24 +180,21 @@ public class PaginaChat extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Já tem chat privado com utilizador selecionado!", "Mensagem Privadas", JOptionPane.ERROR_MESSAGE);
             }else{
                 if(utilizadorMenPriv.recebeMensagensPrivadas()){//Recebe mensagens privadas
-                    System.out.println("Recebe mensagens privadas");
                     int option = JOptionPane.showConfirmDialog(null, "Deseja enviar mensagem privada a " + listaAgenstesUtilizadores.getSelectedValue(), "Mensagem Privada", JOptionPane.YES_NO_OPTION);
 
 
                     if(option == 0){
                         try {
                             //O cliente quer enviar mensagem privada
-                            PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv, "servidor");
+                            PaginaMensagemPrivada pagina = new PaginaMensagemPrivada(conectarServidor, utilizadorMenPriv, 0);
                             pagina.setVisible(true);
                         } catch (RemoteException ex) {
-                            System.out.println("OLHA O ERRO");
                             Logger.getLogger(PaginaChat.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }else{//O cliente não quer enviar mensagem privada
                         return;
                     }
                 }else{
-                    System.out.println("Não recebe mensagens privadas");
                     JOptionPane.showMessageDialog(null, "Utilizador selecionado não quer receber mensagens privadas!", "Mensagem Privadas", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -212,7 +209,6 @@ public class PaginaChat extends javax.swing.JFrame {
             DefaultListModel defaultListModelPosts = new DefaultListModel();
             ArrayList<String> agentesUtilizadores, posts;
             int i = 0;
-            System.out.println("<- Thread para atualizar GUI");
             
             while(true){
                 try {

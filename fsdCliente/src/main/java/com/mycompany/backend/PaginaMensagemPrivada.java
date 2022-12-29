@@ -4,12 +4,8 @@
  */
 package com.mycompany.backend;
 
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 public class PaginaMensagemPrivada extends javax.swing.JFrame {
@@ -19,84 +15,44 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
     private AgenteUtilizador agenteUtilizadorComunicar;
     private final String SERVICE_NAME = "/mensagemPrivada";
     private MensagemPrivadaInterface mensagensPrivadas;
-    private MensagemPrivadaInterface mp;
-    private String tipoExecutar;//Servidor, para saber que precisamos iniciar como servidor, Cliente para sabermos para iniciar como cliente
+    private int jaEnviouRequest = 0;
 
     /**
      * Creates new form PaginaMensagemPrivada
+     *
+     * @param conectarServidor
+     * @param agenteUtilizadorComunicar
+     * @param jaEnviouRequest
+     * @throws java.rmi.RemoteException
      */
-    public PaginaMensagemPrivada(Conexoes conectarServidor, AgenteUtilizador agenteUtilizadorComunicar, String tipoExecutar) throws RemoteException {
+    public PaginaMensagemPrivada(Conexoes conectarServidor, AgenteUtilizador agenteUtilizadorComunicar, int jaEnviouRequest) throws RemoteException {
         initComponents();
         this.conectarServidor = conectarServidor;
+        this.agenteUtilizadorComunicar = agenteUtilizadorComunicar;
+        this.jaEnviouRequest = jaEnviouRequest;
         defaultListModelMensagensPrivadas.add(0, "Mensagem Privada para " + agenteUtilizadorComunicar.getNomeUtilizadorAgenteUtilizador());
         listaMensagensPrivadas.setModel(defaultListModelMensagensPrivadas);
 
-        this.agenteUtilizadorComunicar = agenteUtilizadorComunicar;
         conectarServidor.adicionarAgenteChatPrivado(this.agenteUtilizadorComunicar);
-        /*
-        try {
-            /*TODO: removeSystem.out.println("Ip a utilizar: " + agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":")));
-            mensagensPrivadas = (MensagemPrivadaInterface) LocateRegistry.getRegistry(agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":"))).lookup(SERVICE_NAME);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AccessException ex) {
-            Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+
+        System.out.println("iniciarCliente RMI");
         
-        System.out.println(agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":")));
-        iniciarCliente();
-        receberMensagem.start();
-        
-        
-    }
-
-    /*private void bindRMI(MensagemPrivada mensagemPrivada) throws RemoteException {
-
-        /*System.getProperties().put( "java.security.policy", "./server.policy");
-
-		if( System.getSecurityManager() == null) {
-			System.setSecurityManager(new SecurityManager());
-		}
         try {
-            LocateRegistry.createRegistry(1099);
-        } catch (RemoteException e) {
+            System.out.println("IP USARRRR " + agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":")));
+            this.mensagensPrivadas = (MensagemPrivadaInterface) LocateRegistry.getRegistry(agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":"))).lookup(SERVICE_NAME);
 
-        }
-        try {
-            LocateRegistry.getRegistry("127.0.0.1", 1099).rebind(SERVICE_NAME, mensagemPrivada);
-        } catch (RemoteException e) {
-            System.out.println("Registry not found");
-        }
-    }*/
-    
-    public void iniciarCliente(){
-        System.out.println("iniciarCliente");
-        try {
-
-            MensagemPrivadaInterface mensagemPrivada = (MensagemPrivadaInterface) LocateRegistry.getRegistry(agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":"))).lookup(SERVICE_NAME); 
-	
-            mensagemPrivada.enviarMensagem("oioi");
+                
         } catch (Exception e) {
             System.err.println("Error");
             e.printStackTrace();
-	}
-        
-    }
-    
-    Thread receberMensagem = new Thread(){
-        public void run(){
-            try {
-                mp = new MensagemPrivada();
-                
-            
-            } catch (Exception e) {
-                System.out.println("ERRO REMOTE " + e);
-            }
         }
-    };
-    
-    
-    
+
+        if (jaEnviouRequest == 0) {//Verificar se já enviamos o abrir janela
+            mensagensPrivadas.abrirJanela(conectarServidor.getDadosCliente().getNomeUtilziador());//Usar RMI para abrir uma janela no outro pc
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -161,16 +117,20 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         //Parar a conversa do RMI
         //Mandar mensagem para lado oposto a dizer que este fechou o chat
-        System.out.println("A SAIIIIIRRR");
         conectarServidor.removerAgenteChatPrivado(agenteUtilizadorComunicar);
     }//GEN-LAST:event_formWindowClosed
 
     private void botaoEnviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoEnviarMouseClicked
         System.out.println(campoTextoMensagem.getText());
         try {
-            mensagensPrivadas.enviarMensagem(campoTextoMensagem.getText());
+            defaultListModelMensagensPrivadas.add(defaultListModelMensagensPrivadas.getSize(), campoTextoMensagem.getText());
+            mensagensPrivadas.enviarMensagem(defaultListModelMensagensPrivadas);//Enviar mensagem que tem na text box
+            
+            
+            listaMensagensPrivadas.setModel(defaultListModelMensagensPrivadas);
+            campoTextoMensagem.setText("");//Resetar o texto
         } catch (RemoteException ex) {
-            Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
     }//GEN-LAST:event_botaoEnviarMouseClicked
 

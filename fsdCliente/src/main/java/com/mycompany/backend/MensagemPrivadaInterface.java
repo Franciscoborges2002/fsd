@@ -6,8 +6,10 @@ package com.mycompany.backend;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import javax.swing.DefaultListModel;
 
 public interface MensagemPrivadaInterface extends Remote {
-    void enviarMensagem(String mensagem) throws RemoteException;
-    void abrirJanela(AgenteUtilizador emissor)throws RemoteException;
+    void enviarMensagem(DefaultListModel mensagem) throws RemoteException;
+    void enviarMensagemSegura(String mensagem, String assinatura) throws RemoteException;
+    void abrirJanela(String teste)throws RemoteException;
 }

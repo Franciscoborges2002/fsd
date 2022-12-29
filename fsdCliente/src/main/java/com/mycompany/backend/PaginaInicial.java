@@ -198,6 +198,10 @@ public class PaginaInicial extends javax.swing.JFrame {
             conectarServidor.setDadosCliente(new AgenteUtilizador(espacoTextoNome.getText(), false, "RMI"));
         }
         
+        /*GERARR AS CAHVES*/
+        conectarServidor.getDadosCliente().setChavePrivada("oioiPrivado");
+        conectarServidor.getDadosCliente().setChavePublica("oioiPublico");
+        
         try {
             conectarServidor.conectar();
         } catch (IOException ex) {

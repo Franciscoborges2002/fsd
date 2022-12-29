@@ -13,14 +13,18 @@ public class AgenteUtilizador {
     String ipUtilizador;
     Boolean recebeMensagensPrivadas;
     String tipoMensagemPrivada;
+    String chavePublica, chavePrivada;
 
-    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada) {
+    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada, String chavePublica) {
         this.nomeUtilziador = nomeUtilziador;
         this.ipUtilizador = ipUtilizador;
         this.recebeMensagensPrivadas = recebeMensagensPrivadas;
         this.tipoMensagemPrivada = tipoMensagemPrivada;
+        this.chavePublica = chavePublica;
     }
-
+    
+    
+    
     public AgenteUtilizador(String nomeUtilziador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada) {
         this.nomeUtilziador = nomeUtilziador;
         this.recebeMensagensPrivadas = recebeMensagensPrivadas;
@@ -69,6 +73,22 @@ public class AgenteUtilizador {
 
     public void setTipoMensagemPrivada(String tipoMensagemPrivada) {
         this.tipoMensagemPrivada = tipoMensagemPrivada;
+    }
+
+    public String getChavePublica() {
+        return chavePublica;
+    }
+
+    public void setChavePublica(String chavePublica) {
+        this.chavePublica = chavePublica;
+    }
+
+    public String getChavePrivada() {
+        return chavePrivada;
+    }
+
+    public void setChavePrivada(String chavePrivada) {
+        this.chavePrivada = chavePrivada;
     }
     
     

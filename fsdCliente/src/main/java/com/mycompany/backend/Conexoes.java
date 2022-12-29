@@ -85,10 +85,12 @@ public class Conexoes extends Thread{
             this.printOut = new PrintWriter(ligacao.getOutputStream(), true);
             
             //Enviar a primeira request e receber a resposta
-            printOut.println("SESSION_UPDATE_REQUEST," + dadosCliente.getNomeUtilizadorAgenteUtilizador() + "," + dadosCliente.recebeMensagensPrivadas() + "," + dadosCliente.getTipoMensagemPrivada());
+            printOut.println("SESSION_UPDATE_REQUEST," + dadosCliente.getNomeUtilizadorAgenteUtilizador() + "," + dadosCliente.recebeMensagensPrivadas() + "," + dadosCliente.getTipoMensagemPrivada() + "," + dadosCliente.getChavePublica());
 
             //Ler resposta do servidor
             String resposta = bufferIn.readLine();
+            
+            System.out.println(resposta);
             
             //Meter informações na sessao atual
             setInfoSessao(resposta.substring(resposta.indexOf(",") +1));
@@ -106,7 +108,7 @@ public class Conexoes extends Thread{
     
     //Metodo para enviar mensagem
     public void enviarMensagem(String mensagemEnviar){
-        System.out.println("EnviarMensagem Running");   
+        //System.out.println("EnviarMensagem Running");   
         System.out.println("                                      <- enviar mensagem");
         
         //Enviar o AGENT_POST
@@ -115,8 +117,8 @@ public class Conexoes extends Thread{
     }
     
     public void sessionRequestForced(){
-        System.out.println("Atualizar Forcer");   
-        System.out.println("                                                 <- pedria atualizacao forçada");
+        //System.out.println("Atualizar Forcer");   
+        //System.out.println("                                                 <- pedria atualizacao forçada");
     
         printOut.println("SESSION_UPDATE_REQUEST");
     }
@@ -125,17 +127,17 @@ public class Conexoes extends Thread{
     Thread threadReceberInfo = new Thread(){
         public void run(){
             String resposta;
-            System.out.println("threadReceberInfo Running");
+            //System.out.println("threadReceberInfo Running");
                 
             try {
                 while(true){
-                    System.out.println("                           <- receber info");
+                    //System.out.println("                           <- receber info");
                     resposta = bufferIn.readLine();
-                    System.out.println(resposta);
+                    //System.out.println(resposta);
                     sessaoConectada.getRepositorioPosts().listar();//PARA REMOVER
                     
                     if("SESSION_TIMEOUT".equals(resposta)){
-                        System.out.println("Fechar ligacao");
+                        //System.out.println("Fechar ligacao");
                         bufferIn.close();
                         printOut.close();
                         ligacao.close();
@@ -146,6 +148,7 @@ public class Conexoes extends Thread{
                 }
             } catch (IOException e) {
                 Logger.getLogger(Conexoes.class.getName()).log(Level.SEVERE, null, e);
+                System.out.println("ERRORORORORO " + e);
             }
         }
     };
@@ -153,11 +156,11 @@ public class Conexoes extends Thread{
     //Thread para enviar SESSION_UPDATE_REQUEST
     Thread threadEnviarSessionRequest = new Thread(){
         public void run(){
-          System.out.println("threadReceberInfo Running");
+          //System.out.println("threadReceberInfo Running");
 
             try {
                 while(true){
-                    System.out.println("               <- pedir updates");
+                    //System.out.println("               <- pedir updates");
                     //CODIGO PARA MANDAR REQUEST
                     printOut.println("SESSION_UPDATE_REQUEST");
 
@@ -176,8 +179,10 @@ public class Conexoes extends Thread{
     
     //Função para registar a informação
     public void setInfoSessao(String mensagem){//Registar tudo o recebido da nova request
-        System.out.println("Adicionar: " + mensagem);//PARA REMOVER
+        //System.out.println("Adicionar: " + mensagem);//PARA REMOVER
         this.sessaoConectada.mudarUtilizadores(mensagem.substring(mensagem.indexOf("[") + 1, mensagem.indexOf("]")));
+        
+        this.sessaoConectada.getRepAgenteUtilizador().listar();
         
         mensagem = mensagem.substring(mensagem.indexOf("]")  + 3);//Tirar os utilizadores já adicionados acima
         this.sessaoConectada.adicionarPosts(mensagem.substring(0, mensagem.indexOf("]")));
@@ -232,7 +237,7 @@ public class Conexoes extends Thread{
         MensagemPrivada mensagemPrivada = null;
         
         try {
-            mensagemPrivada = new MensagemPrivada();
+            mensagemPrivada = new MensagemPrivada(this);
 	} catch (RemoteException e1) {
             System.err.println("unexpected error...");
             e1.printStackTrace();

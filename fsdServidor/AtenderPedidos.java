@@ -25,7 +25,7 @@ public class AtenderPedidos extends Thread{
     }
 
     public void run(){//Mudar, para quando aceitar uma ligação criar o cliente e adicioanr ao repositorio do servidor
-        String pedido, mensagem, protocoloMensagensPrivadas;
+        String pedido, mensagem, protocoloMensagensPrivadas, chavePublica;
         Boolean recebeMensagens;
         verificarSessionTimeout(this);
 
@@ -45,25 +45,24 @@ public class AtenderPedidos extends Thread{
                     case "SESSION_UPDATE_REQUEST":
                         if(!(pedido.length() == 22)){//Se tiver diferente de 22 caracteres adicionar nome, ip utilizador e se quer receber mensagens ou não
                             System.out.println(pedido);
-                            //Remover tipo mensagem
-                            pedido = pedido.substring(pedido.indexOf(",") +1);
+                            pedido = pedido.substring(pedido.indexOf(",") +1);//Remover tipo mensagem
 
-                            //Adicionar nome utilizador
                             nomeUtilizador = pedido.substring(0, pedido.indexOf(","));//separa o nick
 
-                            //Remover nomeUtilizador
                             pedido = pedido.substring(pedido.indexOf(",") +1);
 
-                            //Receber se o cliente vai querer receber mensagens privadas
-                            recebeMensagens = Boolean.parseBoolean(pedido.substring(0, pedido.indexOf(",")));
+                            recebeMensagens = Boolean.parseBoolean(pedido.substring(0, pedido.indexOf(",")));//separar se o utilizador quer ou não receber mensagens
 
-                            //Remover se o cliente vai querer receber mensagens privadas
                             pedido = pedido.substring(pedido.indexOf(",") +1);
 
-                            //protocoloMensagensPrivadas
-                            protocoloMensagensPrivadas = pedido.substring(0);//separa o nick
+                            protocoloMensagensPrivadas = pedido.substring(0, pedido.indexOf(","));//separa o protocolo de mensagens privadas a usar
 
-                            AgenteUtilizador novoCliente = new AgenteUtilizador(nomeUtilizador, ligacao.getRemoteSocketAddress().toString(), recebeMensagens, protocoloMensagensPrivadas);//Criar AgenteUtilziador
+                            pedido = pedido.substring(pedido.indexOf(",") +1);
+
+                            chavePublica = pedido.substring(0);//separa a chave publica
+
+                            AgenteUtilizador novoCliente = new AgenteUtilizador(nomeUtilizador, ligacao.getRemoteSocketAddress().toString(), recebeMensagens, protocoloMensagensPrivadas, chavePublica);//Criar AgenteUtilziador
+                            
                             sessaoAtual.getRepAgenteUtilizador().adicionarCliente(novoCliente);//Adicionar repositorio
                             
                             /* TODO: remover*/sessaoAtual.getRepAgenteUtilizador().listar();
