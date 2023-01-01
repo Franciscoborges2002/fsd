@@ -3,10 +3,14 @@
 ### Fase 3
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
 |-|-|-|
-|Gerar chaves ao iniciar o cliente| <p align="center">❌</p>||
 |Privada nunca partilhar, publica enviar na primeira mensagem enviada ao servidor| <p align="center">✔️</p>|27/12/2022|
 |Atulizar a classe AgenteUtilizador, para conter a chave pública| <p align="center">✔️</p>  |27/12/2022|
 |Adicionar o novo método à interface do RMI| <p align="center">✔️</p>|27/12/2022|
+|Gerar chaves ao iniciar o cliente| <p align="center">✔️</p>|28/12/2022|
+|Adicionar metodo enviarMesangemPrivada à classe RMI| <p align="center">✔️</p>|30/12/2022|
+|Fazer parte de encriptação antes de enviar mensagem| <p align="center">✔️</p>|01/12/2022|
+|Descencriptar a mensagem dentro da funcção enviarMensagemPrivada| <p align="center">✔️</p>|01/01/2022|
+|Verificar se a mensagem enviada e a assinatura dão match| <p align="center">✔️</p>|01/01/2022|
 
 ### Fase 2
 |<p align="center">Nome Milestone</p>|<p align="center">Feito</p>|<p align="center">Dia</p>|
