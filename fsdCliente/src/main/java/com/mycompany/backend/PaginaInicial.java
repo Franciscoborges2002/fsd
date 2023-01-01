@@ -6,7 +6,8 @@ package com.mycompany.backend;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.rmi.RemoteException;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -199,14 +200,27 @@ public class PaginaInicial extends javax.swing.JFrame {
         }
         
         /*GERARR AS CAHVES*/
-        conectarServidor.getDadosCliente().setChavePrivada("oioiPrivado");
-        conectarServidor.getDadosCliente().setChavePublica("oioiPublico");
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            
+            conectarServidor.getDadosCliente().setChavePrivada(keyPair.getPrivate());
+            conectarServidor.getDadosCliente().setChavePublica(keyPair.getPublic());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        
         
         try {
             conectarServidor.conectar();
         } catch (IOException ex) {
             Logger.getLogger(PaginaInicial.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Não conseguiste te conectar ao servidor!\n" + ex,"ERROR!", JOptionPane.ERROR_MESSAGE);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(PaginaInicial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(PaginaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try{

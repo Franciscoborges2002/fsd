@@ -51,14 +51,20 @@ public class RepositorioAgenteUtilizador {
         return agenteRetornar;
     }
     
+    //Metodo para limapr a lista quan recebemso um novo SESSION_UPDATE
     public void limparLista(){
         agentesUtilizadores.clear();
     }
     
+    //Metodo para listar todos os utilizadores existentes
     public void listar(){
         System.out.println("Listar utilizadores:");
+        //For each para passar por todos os clientes
         for(AgenteUtilizador agentUtilizador: agentesUtilizadores){
-            System.out.println(agentUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agentUtilizador.getIpUtilizador() + ") ->" + agentUtilizador.getChavePublica());
+            //passar para string a chave pública
+            String chavePublicaEncoded = Base64.getEncoder().encodeToString(agentUtilizador.getChavePublica().getEncoded());
+            //Dar print ao cliente
+            System.out.println(agentUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agentUtilizador.getIpUtilizador() + ") ->" + chavePublicaEncoded);
         }
     }
 

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.backend;
+import java.security.*;
 
 /**
  *
@@ -13,17 +14,23 @@ public class AgenteUtilizador {
     String ipUtilizador;
     Boolean recebeMensagensPrivadas;
     String tipoMensagemPrivada;
-    String chavePublica, chavePrivada;
+    PublicKey chavePublica;
+    PrivateKey chavePrivada;
 
-    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada, String chavePublica) {
+    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada, PublicKey chavePublica) {
         this.nomeUtilziador = nomeUtilziador;
         this.ipUtilizador = ipUtilizador;
         this.recebeMensagensPrivadas = recebeMensagensPrivadas;
         this.tipoMensagemPrivada = tipoMensagemPrivada;
         this.chavePublica = chavePublica;
     }
-    
-    
+
+    public AgenteUtilizador(String nomeUtilziador, String ipUtilizador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada) {
+        this.nomeUtilziador = nomeUtilziador;
+        this.ipUtilizador = ipUtilizador;
+        this.recebeMensagensPrivadas = recebeMensagensPrivadas;
+        this.tipoMensagemPrivada = tipoMensagemPrivada;
+    }
     
     public AgenteUtilizador(String nomeUtilziador, Boolean recebeMensagensPrivadas, String tipoMensagemPrivada) {
         this.nomeUtilziador = nomeUtilziador;
@@ -75,19 +82,19 @@ public class AgenteUtilizador {
         this.tipoMensagemPrivada = tipoMensagemPrivada;
     }
 
-    public String getChavePublica() {
+    public PublicKey getChavePublica() {
         return chavePublica;
     }
 
-    public void setChavePublica(String chavePublica) {
+    public void setChavePublica(PublicKey chavePublica) {
         this.chavePublica = chavePublica;
     }
 
-    public String getChavePrivada() {
+    public PrivateKey getChavePrivada() {
         return chavePrivada;
     }
 
-    public void setChavePrivada(String chavePrivada) {
+    public void setChavePrivada(PrivateKey chavePrivada) {
         this.chavePrivada = chavePrivada;
     }
     

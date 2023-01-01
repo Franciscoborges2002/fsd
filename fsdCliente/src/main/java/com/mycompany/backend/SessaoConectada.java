@@ -4,7 +4,12 @@
  */
 package com.mycompany.backend;
 
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
+import java.util.Base64;
 
 /*
  * Classe para ter todas as informações da sessão atual,
@@ -20,7 +25,7 @@ public class SessaoConectada {
         repPosts = new RepositorioPosts();
     }
 
-    public void mudarUtilizadores(String utilizadores) {
+    public void mudarUtilizadores(String utilizadores) throws NoSuchAlgorithmException, InvalidKeySpecException {
         boolean temNomes = true, recebeMensagens;
         String nickname, ipUtilizador, utilizador, chavePublica;
 
@@ -42,8 +47,13 @@ public class SessaoConectada {
 
                 nickname = utilizador.substring(0, utilizador.indexOf("("));//Dar set ao nickname do utilizador
                 chavePublica = utilizador.substring(utilizador.indexOf(")") + 1);//Dar set à chave pública do utilizador
+                
+                byte[] chavePublicaBytes = Base64.getDecoder().decode(chavePublica);
+                
+                X509EncodedKeySpec keySpec = new X509EncodedKeySpec(chavePublicaBytes);
+                KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 
-                arrayList.add(new AgenteUtilizador(nickname, ipUtilizador, recebeMensagens, "RMI", chavePublica));
+                arrayList.add(new AgenteUtilizador(nickname, ipUtilizador, recebeMensagens, "RMI", keyFactory.generatePublic(keySpec)));
 
                 utilizadores = utilizadores.substring(utilizadores.indexOf(",") + 2);
             } else {//Se não tiver virgulas, quer dizer que só tem um nome
@@ -54,8 +64,13 @@ public class SessaoConectada {
 
                 nickname = utilizador.substring(0, utilizador.indexOf("("));  //Dar set ao nickname do utilizador
                 chavePublica = utilizador.substring(utilizador.indexOf(")") + 1);//Dar set à chave pública do utilizador
+                
+                byte[] chavePublicaBytes = Base64.getDecoder().decode(chavePublica);
+                
+                X509EncodedKeySpec keySpec = new X509EncodedKeySpec(chavePublicaBytes);
+                KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 
-                arrayList.add(new AgenteUtilizador(nickname, ipUtilizador, recebeMensagens, "RMI", chavePublica));
+                arrayList.add(new AgenteUtilizador(nickname, ipUtilizador, recebeMensagens, "RMI", keyFactory.generatePublic(keySpec)));
                 utilizadores = "";
             }
 

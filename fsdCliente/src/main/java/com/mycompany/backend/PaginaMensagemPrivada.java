@@ -6,6 +6,16 @@ package com.mycompany.backend;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.DefaultListModel;
 
 public class PaginaMensagemPrivada extends javax.swing.JFrame {
@@ -66,6 +76,7 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
         listaMensagensPrivadas = new javax.swing.JList<>();
         campoTextoMensagem = new javax.swing.JTextField();
         botaoEnviar = new javax.swing.JButton();
+        botaoEnviarPrivada = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Mensagem Privada.");
@@ -85,6 +96,13 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
             }
         });
 
+        botaoEnviarPrivada.setText("Enviar Privada");
+        botaoEnviarPrivada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botaoEnviarPrivadaMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,10 +111,11 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(campoTextoMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botaoEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
+                    .addComponent(campoTextoMensagem)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(botaoEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botaoEnviarPrivada, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -105,10 +124,12 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoTextoMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoTextoMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botaoEnviar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(botaoEnviar)
+                    .addComponent(botaoEnviarPrivada))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -134,8 +155,45 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botaoEnviarMouseClicked
 
+    private void botaoEnviarPrivadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoEnviarPrivadaMouseClicked
+        System.out.println("MEMSAGEM A ENVIAR ENCRIPTADA " + campoTextoMensagem.getText());
+        try {
+            //Criar Message Digest
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(campoTextoMensagem.getText().getBytes());
+            byte[] digest = md.digest();
+            
+            System.out.println("DIGEST " + digest);
+
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.ENCRYPT_MODE, conectarServidor.getDadosCliente().getChavePrivada());
+            cipher.update(digest);           
+
+            byte[] cipherText = cipher.doFinal();
+            
+            System.out.println("CYPHER TEXT" + cipherText);
+
+            String msgBase = Base64.getEncoder().encodeToString(cipherText);
+            
+            
+            mensagensPrivadas.enviarMensagemSegura(campoTextoMensagem.getText(), msgBase);//Enviar mensagem que tem na text box
+            
+            System.out.println("MESSAGE BASE " + msgBase);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
+            Logger.getLogger(MensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //Adicionado por causa do cipher
+        //Adicionado por causa do cipher
+         catch (RemoteException ex) {//Por causa de usar o metodo enviarMensageSegura
+            Logger.getLogger(PaginaMensagemPrivada.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        campoTextoMensagem.setText("");//Resetar o texto
+    }//GEN-LAST:event_botaoEnviarPrivadaMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoEnviar;
+    private javax.swing.JButton botaoEnviarPrivada;
     private javax.swing.JTextField campoTextoMensagem;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> listaMensagensPrivadas;

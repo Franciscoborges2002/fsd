@@ -8,7 +8,10 @@ import java.io.*;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,7 +73,7 @@ public class Conexoes extends Thread{
     }
 
     //Metodo para conectar e definir todas as vars da classe
-    public void conectar() throws IOException {
+    public void conectar() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         try {
             //Definir todas as variaveis da classe
             this.sessaoConectada = new SessaoConectada();
@@ -84,8 +87,11 @@ public class Conexoes extends Thread{
 
             this.printOut = new PrintWriter(ligacao.getOutputStream(), true);
             
+            //Passar chave publica para string
+            String chavePublicaEncoded = Base64.getEncoder().encodeToString(dadosCliente.getChavePublica().getEncoded());
+            
             //Enviar a primeira request e receber a resposta
-            printOut.println("SESSION_UPDATE_REQUEST," + dadosCliente.getNomeUtilizadorAgenteUtilizador() + "," + dadosCliente.recebeMensagensPrivadas() + "," + dadosCliente.getTipoMensagemPrivada() + "," + dadosCliente.getChavePublica());
+            printOut.println("SESSION_UPDATE_REQUEST," + dadosCliente.getNomeUtilizadorAgenteUtilizador() + "," + dadosCliente.recebeMensagensPrivadas() + "," + dadosCliente.getTipoMensagemPrivada() + "," + chavePublicaEncoded);
 
             //Ler resposta do servidor
             String resposta = bufferIn.readLine();
@@ -143,7 +149,13 @@ public class Conexoes extends Thread{
                         ligacao.close();
                         
                     }else{
-                        setInfoSessao(resposta.substring(resposta.indexOf(",") + 1));
+                        try {
+                            setInfoSessao(resposta.substring(resposta.indexOf(",") + 1));
+                        } catch (NoSuchAlgorithmException ex) {
+                            Logger.getLogger(Conexoes.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InvalidKeySpecException ex) {
+                            Logger.getLogger(Conexoes.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             } catch (IOException e) {
@@ -178,7 +190,7 @@ public class Conexoes extends Thread{
     }
     
     //Função para registar a informação
-    public void setInfoSessao(String mensagem){//Registar tudo o recebido da nova request
+    public void setInfoSessao(String mensagem) throws NoSuchAlgorithmException, InvalidKeySpecException{//Registar tudo o recebido da nova request
         //System.out.println("Adicionar: " + mensagem);//PARA REMOVER
         this.sessaoConectada.mudarUtilizadores(mensagem.substring(mensagem.indexOf("[") + 1, mensagem.indexOf("]")));
         
