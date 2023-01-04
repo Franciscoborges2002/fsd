@@ -27,6 +27,15 @@ public class Conexoes extends Thread{
     private AgenteUtilizador dadosCliente;
     private ArrayList<AgenteUtilizador> chatsPrivadosAbertos;
     private final String SERVICE_NAME = "/mensagemPrivada";
+    MensagemPrivada mensagemPrivada;
+
+    public MensagemPrivada getMensagemPrivada() {
+        return mensagemPrivada;
+    }
+
+    public void setMensagemPrivada(MensagemPrivada mensagemPrivada) {
+        this.mensagemPrivada = mensagemPrivada;
+    }
     
     public boolean chatComUtilizador(AgenteUtilizador agenteUtilizadorEnviarMensagem){
        return chatsPrivadosAbertos.contains(agenteUtilizadorEnviarMensagem);
@@ -115,7 +124,7 @@ public class Conexoes extends Thread{
     //Metodo para enviar mensagem
     public void enviarMensagem(String mensagemEnviar){
         //System.out.println("EnviarMensagem Running");   
-        System.out.println("                                      <- enviar mensagem");
+        //System.out.println("                                      <- enviar mensagem");
         
         //Enviar o AGENT_POST
         printOut.println("AGENT_POST," + mensagemEnviar);
@@ -246,7 +255,6 @@ public class Conexoes extends Thread{
     }
     
     public void iniciarServidorRMI(){//Iniciar o servidor de RMI
-        MensagemPrivada mensagemPrivada = null;
         
         try {
             mensagemPrivada = new MensagemPrivada(this);

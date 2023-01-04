@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
-import java.util.Base64;
+import java.util.Base64;    
 
 /*
  * Classe para ter todas as informações da sessão atual,
@@ -36,7 +36,6 @@ public class SessaoConectada {
         ArrayList<AgenteUtilizador> arrayList = new ArrayList<>();
 
         while (temNomes) {//Enquanto existem nomes na string
-            /*TODO: REMOVER*///System.out.println("TEM NICKS" + temNomes);
 
             if (utilizadores.contains(",")) {//Se ainda tiver virgulas, quer dizer que ainda tem nomes
                 utilizador = utilizadores.substring(0, utilizadores.indexOf(","));
@@ -58,6 +57,7 @@ public class SessaoConectada {
                 utilizadores = utilizadores.substring(utilizadores.indexOf(",") + 2);
             } else {//Se não tiver virgulas, quer dizer que só tem um nome
                 utilizador = utilizadores;
+                System.out.println(utilizador);
                 ipUtilizador = utilizador.substring(utilizador.indexOf("(") + 1, utilizador.indexOf(")"));
 
                 recebeMensagens = !ipUtilizador.equals("null"); //Verificar se recebe ou não mensagens privadas
@@ -69,6 +69,9 @@ public class SessaoConectada {
                 
                 X509EncodedKeySpec keySpec = new X509EncodedKeySpec(chavePublicaBytes);
                 KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+                System.out.println(keySpec);
+                System.out.println(keyFactory);
+                System.out.println(keyFactory.generatePublic(keySpec));
 
                 arrayList.add(new AgenteUtilizador(nickname, ipUtilizador, recebeMensagens, "RMI", keyFactory.generatePublic(keySpec)));
                 utilizadores = "";
@@ -92,8 +95,6 @@ public class SessaoConectada {
         String post;
         int indexVirgula = 0, indexAdicionarPost = 0;
 
-        //System.out.println("Iniciar divisao posts");
-        //System.out.println("Posts " + posts);
         while (temMensagens) {
 
             if (posts.contains(",")) {//Caso tenha virgula

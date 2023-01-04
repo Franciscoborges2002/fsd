@@ -17,11 +17,11 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.swing.DefaultListModel;
 
 public class MensagemPrivada extends UnicastRemoteObject implements MensagemPrivadaInterface {
 
     Conexoes conectarServidor;
+    PaginaMensagemPrivada paginaMensagemPrivada;
 
     public MensagemPrivada(Conexoes conectarServidor) throws RemoteException {
         super();
@@ -29,8 +29,8 @@ public class MensagemPrivada extends UnicastRemoteObject implements MensagemPriv
     }
 
     @Override
-    public void enviarMensagem(DefaultListModel mensagem) throws RemoteException {
-        System.out.println("MENSAGEMMM " + mensagem);
+    public void enviarMensagem(String nome, String mensagem) throws RemoteException {
+        paginaMensagemPrivada.adicionarMensagemNaLista(mensagem);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class MensagemPrivada extends UnicastRemoteObject implements MensagemPriv
         mensagemPrivadaChatPagina.setVisible(true);//Mostrar página
     }
 
-    public void enviarMensagemSegura(String mensagem, String assinatura) throws RemoteException {
+    public void enviarMensagemSegura(String nome, String mensagem, String assinatura) throws RemoteException {
         //Converte para bytes
         byte[] decodedBytes = Base64.getDecoder().decode(assinatura);
         
@@ -59,8 +59,10 @@ public class MensagemPrivada extends UnicastRemoteObject implements MensagemPriv
             
             if(Arrays.equals(decriptedDigest, digest)){
                 System.out.println("Mensagem segura123 : " + mensagem);
+                paginaMensagemPrivada.adicionarMensagemNaLista(mensagem);
             }else{
                 System.out.println("Mensagem sofreu alterações");
+                paginaMensagemPrivada.adicionarMensagemNaLista("Mensagem recebida, mas foi alterada. " + mensagem);
             }
             
         } catch (NoSuchAlgorithmException ex) {//Por causa de iniciar o cipher
@@ -76,4 +78,14 @@ public class MensagemPrivada extends UnicastRemoteObject implements MensagemPriv
         }
 
     }
+
+    public PaginaMensagemPrivada getPaginaMensagemPrivada() {
+        return paginaMensagemPrivada;
+    }
+
+    public void setPaginaMensagemPrivada(PaginaMensagemPrivada paginaMensagemPrivada) {
+        this.paginaMensagemPrivada = paginaMensagemPrivada;
+    }
+    
+    
 }

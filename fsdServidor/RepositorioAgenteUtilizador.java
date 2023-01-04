@@ -83,7 +83,6 @@ public class RepositorioAgenteUtilizador {
 
             if(agenteUtilizador.recebeMensagensPrivadas()){
                 nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")" + agenteUtilizador.getChavePublica());
-                /*TODO: REMOVER*/System.out.println("A VER AQUIII" + agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(" + agenteUtilizador.getIpUtilizador() + ")");
             }else{
                 nomesUtilizadoresAgentesUtilizadores.add(agenteUtilizador.getNomeUtilizadorAgenteUtilizador() + "(null)" + agenteUtilizador.getChavePublica());
             }

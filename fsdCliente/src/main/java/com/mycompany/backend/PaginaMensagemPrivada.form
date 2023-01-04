@@ -92,7 +92,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="botaoEnviarPrivada">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Enviar Privada"/>
+        <Property name="text" type="java.lang.String" value="Enviar Segura"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="botaoEnviarPrivadaMouseClicked"/>

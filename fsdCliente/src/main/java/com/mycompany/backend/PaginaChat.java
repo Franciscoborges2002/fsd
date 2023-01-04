@@ -215,11 +215,11 @@ public class PaginaChat extends javax.swing.JFrame {
                     agentesUtilizadores = conectarServidor.getNomesAgentesUtilizadores();
                     posts = conectarServidor.getPosts();
                     
-                defaultListModelPosts.add(i, "Chat geral.");
+                defaultListModelPosts.add(0, "Chat geral.");
                     
                     //For para adicionar post ao modelo
                     for(String post: posts){
-                        defaultListModelPosts.add(i, post);
+                        defaultListModelPosts.add(defaultListModelPosts.getSize(), post);
                         i++;
                     }
                     

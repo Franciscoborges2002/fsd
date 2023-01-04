@@ -19,7 +19,7 @@ public class Servidor {
 
         ServerSocket servidor = new ServerSocket(port);//Criar servidor socket
         
-        System.out.println("Servidor a' espera de ligacoes no porto " + port);
+        System.out.println("Servidor a' espera de ligacoes na porta " + port);
 
         while(true){
             try{

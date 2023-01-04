@@ -40,15 +40,16 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
         this.conectarServidor = conectarServidor;
         this.agenteUtilizadorComunicar = agenteUtilizadorComunicar;
         this.jaEnviouRequest = jaEnviouRequest;
-        defaultListModelMensagensPrivadas.add(0, "Mensagem Privada para " + agenteUtilizadorComunicar.getNomeUtilizadorAgenteUtilizador());
+        defaultListModelMensagensPrivadas.add(0, "Mensagem Privada para " + agenteUtilizadorComunicar.getNomeUtilizadorAgenteUtilizador());//agenteUtilizadorComunicar.getNomeUtilizadorAgenteUtilizador()
         listaMensagensPrivadas.setModel(defaultListModelMensagensPrivadas);
+        
+        conectarServidor.getMensagemPrivada().setPaginaMensagemPrivada(this);//Dar set desta página dentro da Mensagem Privada
 
         conectarServidor.adicionarAgenteChatPrivado(this.agenteUtilizadorComunicar);
 
         System.out.println("iniciarCliente RMI");
         
         try {
-            System.out.println("IP USARRRR " + agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":")));
             this.mensagensPrivadas = (MensagemPrivadaInterface) LocateRegistry.getRegistry(agenteUtilizadorComunicar.getIpUtilizador().substring(1, agenteUtilizadorComunicar.getIpUtilizador().indexOf(":"))).lookup(SERVICE_NAME);
 
                 
@@ -96,7 +97,7 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
             }
         });
 
-        botaoEnviarPrivada.setText("Enviar Privada");
+        botaoEnviarPrivada.setText("Enviar Segura");
         botaoEnviarPrivada.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 botaoEnviarPrivadaMouseClicked(evt);
@@ -145,7 +146,7 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
         System.out.println(campoTextoMensagem.getText());
         try {
             defaultListModelMensagensPrivadas.add(defaultListModelMensagensPrivadas.getSize(), campoTextoMensagem.getText());
-            mensagensPrivadas.enviarMensagem(defaultListModelMensagensPrivadas);//Enviar mensagem que tem na text box
+            mensagensPrivadas.enviarMensagem(conectarServidor.getDadosCliente().getNomeUtilziador(), campoTextoMensagem.getText());//Enviar mensagem que tem na text box
             
             
             listaMensagensPrivadas.setModel(defaultListModelMensagensPrivadas);
@@ -176,7 +177,7 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
             String msgBase = Base64.getEncoder().encodeToString(cipherText);
             
             
-            mensagensPrivadas.enviarMensagemSegura(campoTextoMensagem.getText(), msgBase);//Enviar mensagem que tem na text box
+            mensagensPrivadas.enviarMensagemSegura(conectarServidor.getDadosCliente().getNomeUtilziador(), campoTextoMensagem.getText(), msgBase);//Enviar mensagem que tem na text box
             
             System.out.println("MESSAGE BASE " + msgBase);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
@@ -191,6 +192,11 @@ public class PaginaMensagemPrivada extends javax.swing.JFrame {
         campoTextoMensagem.setText("");//Resetar o texto
     }//GEN-LAST:event_botaoEnviarPrivadaMouseClicked
 
+    public void adicionarMensagemNaLista(String mensagem){
+        defaultListModelMensagensPrivadas.add(defaultListModelMensagensPrivadas.getSize(), mensagem);
+        listaMensagensPrivadas.setModel(defaultListModelMensagensPrivadas);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoEnviar;
     private javax.swing.JButton botaoEnviarPrivada;
